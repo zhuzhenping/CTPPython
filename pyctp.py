@@ -1090,15 +1090,15 @@ class CTPDLL(object):
 		return self.m_ctp.getCommissionRate(self.m_ctpID, code, data)
 	#获取深度市场行情
 	#data 返回数据 create_string_buffer(1024000)
-	def getDepthMarketData(code, data):
+	def getDepthMarketData(data):
 		return self.m_ctp.getDepthMarketData(self.m_ctpID, data)
 	#获取合约数据
 	#data 返回数据 create_string_buffer(1024000)
-	def getInstrumentsData(code, data):
+	def getInstrumentsData(data):
 		return self.m_ctp.getInstrumentsData(self.m_ctpID, data)
 	#获取投资者ID
 	#data 返回数据 create_string_buffer(1024000)
-	def getInvestorID(code, data):
+	def getInvestorID(data):
 		return self.m_ctp.getInvestorID(self.m_ctpID, data)
 	#获取保证金率
 	#code 代码 c_char_p
