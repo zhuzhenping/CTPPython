@@ -997,7 +997,7 @@ class CTPDLL(object):
 		self.m_ctpID = 0 #CTP的编号
 	#初始化
 	def init(self):
-		m_ctp = cdll.LoadLibrary(os.getcwd() + r"\\iCTP.dll")
+		self.m_ctp = cdll.LoadLibrary(os.getcwd() + r"\\iCTP.dll")
 		cdll.argtypes = [c_char_p, c_int, c_double, c_long, c_wchar_p]
 	#卖平：多单平仓
 	#requestID 请求ID c_int
@@ -1007,8 +1007,8 @@ class CTPDLL(object):
 	#qty 数量 c_int
 	#timeCondition 有效期 c_char(51)
 	#orderRef 附加信息 c_char_p
-	def askClose(requestID, code, exchangeID, price, qty, timeCondition, orderRef):
-		return self.m_ctp.askClose(self.m_ctpID, requestID, code, exchangeID, price, qty, timeCondition, orderRef)
+	def askClose(self, requestID, code, exchangeID, price, qty, timeCondition, orderRef):
+		return self.m_ctp.askClose(self.m_ctpID, c_int(requestID), c_char_p(code.encode('utf-8')), c_char_p(exchangeID.encode('utf-8')), c_double(price), c_int(qty), c_char(timeCondition), c_char_p(orderRef.encode('utf-8')))
 	#卖平今仓：平今天的开仓的空单
 	#requestID 请求ID c_int
 	#code 代码 c_char_p
@@ -1017,8 +1017,8 @@ class CTPDLL(object):
 	#qty 数量 c_int
 	#timeCondition 有效期 c_char(51)
 	#orderRef 附加信息 c_char_p
-	def askCloseToday(requestID, code, exchangeID, price, qty, timeCondition, orderRef):
-		return self.m_ctp.askCloseToday(self.m_ctpID, requestID, code, exchangeID, price, qty, timeCondition, orderRef)
+	def askCloseToday(self, requestID, code, exchangeID, price, qty, timeCondition, orderRef):
+		return self.m_ctp.askCloseToday(self.m_ctpID, c_int(requestID), c_char_p(code.encode('utf-8')), c_char_p(exchangeID.encode('utf-8')), c_double(price), c_int(qty), c_char(timeCondition), c_char_p(orderRef.encode('utf-8')))
 	#卖开：空单开仓
 	#requestID 请求ID c_int
 	#code 代码 c_char_p
@@ -1027,8 +1027,8 @@ class CTPDLL(object):
 	#qty 数量 c_int
 	#timeCondition 有效期 c_char(51)
 	#orderRef 附加信息 c_char_p
-	def askOpen(requestID, code, exchangeID, price, qty, timeCondition, orderRef):
-		return self.m_ctp.askOpen(self.m_ctpID, requestID, code, exchangeID, price, qty, timeCondition, orderRef)
+	def askOpen(self, requestID, code, exchangeID, price, qty, timeCondition, orderRef):
+		return self.m_ctp.askOpen(self.m_ctpID, c_int(requestID), c_char_p(code.encode('utf-8')), c_char_p(exchangeID.encode('utf-8')), c_double(price), c_int(qty), c_char(timeCondition), c_char_p(orderRef.encode('utf-8')))
 	#买平：空单平仓
 	#requestID 请求ID c_int
 	#code 代码 c_char_p
@@ -1037,8 +1037,8 @@ class CTPDLL(object):
 	#qty 数量 c_int
 	#timeCondition 有效期 c_char(51)
 	#orderRef 附加信息 c_char_p
-	def bidClose(requestID, code, exchangeID, price, qty, timeCondition, orderRef):
-		return self.m_ctp.bidClose(self.m_ctpID, requestID, code, exchangeID, price, qty, timeCondition, orderRef)
+	def bidClose(self, requestID, code, exchangeID, price, qty, timeCondition, orderRef):
+		return self.m_ctp.bidClose(self.m_ctpID, c_int(requestID), c_char_p(code.encode('utf-8')), c_char_p(exchangeID.encode('utf-8')), c_double(price), c_int(qty), c_char(timeCondition), c_char_p(orderRef.encode('utf-8')))
 	#买平今仓：平今天的开仓的空单
 	#requestID 请求ID c_int
 	#code 代码 c_char_p
@@ -1047,8 +1047,8 @@ class CTPDLL(object):
 	#qty 数量 c_int
 	#timeCondition 有效期 c_char(51)
 	#orderRef 附加信息 c_char_p
-	def bidCloseToday(requestID, code, exchangeID, price, qty, timeCondition, orderRef):
-		return self.m_ctp.bidCloseToday(self.m_ctpID, requestID, code, exchangeID, price, qty, timeCondition, orderRef)
+	def bidCloseToday(self, requestID, code, exchangeID, price, qty, timeCondition, orderRef):
+		return self.m_ctp.bidCloseToday(self.m_ctpID, c_int(requestID), c_char_p(code.encode('utf-8')), c_char_p(exchangeID.encode('utf-8')), c_double(price), c_int(qty), c_char(timeCondition), c_char_p(orderRef.encode('utf-8')))
 	#买开：多单开仓
 	#requestID 请求ID c_int
 	#code 代码 c_char_p
@@ -1057,138 +1057,138 @@ class CTPDLL(object):
 	#qty 数量 c_int
 	#timeCondition 有效期 c_char(51)
 	#orderRef 附加信息 c_char_p
-	def bidOpen(requestID, code, exchangeID, price, qty, timeCondition, orderRef):
-		return self.m_ctp.bidOpen(self.m_ctpID, requestID, code, exchangeID, price, qty, timeCondition, orderRef)
+	def bidOpen(self, requestID, code, exchangeID, price, qty, timeCondition, orderRef):
+		return self.m_ctp.bidOpen(self.m_ctpID, c_int(requestID), c_char_p(code.encode('utf-8')), c_char_p(exchangeID.encode('utf-8')), c_double(price), c_int(qty), c_char(timeCondition), c_char_p(orderRef.encode('utf-8')))
 	#撤单
 	#requestID 请求ID c_int
 	#exchangeID 交易所ID c_char_p
 	#orderSysID 委托编号 c_char_p
 	#orderRef 附加信息 c_char_p
-	def cancelOrder(requestID, exchangeID, orderSysID, orderRef):
-		return self.cancelOrder(self.m_ctpID, requestID, exchangeID, orderSysID, orderRef)
+	def cancelOrder(self, requestID, exchangeID, orderSysID, orderRef):
+		return self.cancelOrder(self.m_ctpID, c_int(requestID), c_char_p(exchangeID.encode('utf-8')), c_char_p(orderSysID.encode('utf-8')), c_char_p(orderRef.encode('utf-8')))
 	#创建交易
-	def create():
+	def create(self):
 		return self.m_ctp.create()
 	#生成ctp请求编号
-	def generateReqID():
+	def generateReqID(self):
 		return self.m_ctp.generateReqID(self.m_ctpID)
 	#是否有新的数据
-	def hasNewDatas():
+	def hasNewDatas(self):
 		return self.m_ctp.hasNewDatas(self.m_ctpID)
 	#获取资金账户信息
 	#data 返回数据 create_string_buffer(1024000)
-	def getAccountData(data):
+	def getAccountData(self, data):
 		return self.m_ctp.getAccountData(self.m_ctpID, data)
 	#获取经纪公司ID
 	#data 返回数据 create_string_buffer(1024000)
-	def getBrokerID(data):
+	def getBrokerID(self, data):
 		return self.m_ctp.getBrokerID(self.m_ctpID, data)
-	#获取经纪公司ID
+	#获取手续费率
 	#code 代码 c_char_p
 	#data 返回数据 create_string_buffer(1024000)
-	def getCommissionRate(code, data):
-		return self.m_ctp.getCommissionRate(self.m_ctpID, code, data)
+	def getCommissionRate(self, code, data):
+		return self.m_ctp.getCommissionRate(self.m_ctpID, c_char_p(code.encode('utf-8')), data)
 	#获取深度市场行情
 	#data 返回数据 create_string_buffer(1024000)
-	def getDepthMarketData(data):
+	def getDepthMarketData(self, data):
 		return self.m_ctp.getDepthMarketData(self.m_ctpID, data)
 	#获取合约数据
 	#data 返回数据 create_string_buffer(1024000)
-	def getInstrumentsData(data):
+	def getInstrumentsData(self, data):
 		return self.m_ctp.getInstrumentsData(self.m_ctpID, data)
 	#获取投资者ID
 	#data 返回数据 create_string_buffer(1024000)
-	def getInvestorID(data):
+	def getInvestorID(self, data):
 		return self.m_ctp.getInvestorID(self.m_ctpID, data)
 	#获取保证金率
 	#code 代码 c_char_p
 	#data 返回数据 create_string_buffer(1024000)
-	def getMarginRate(code, data):
-		return self.m_ctp.getMarginRate(self.m_ctpID, code, data)
+	def getMarginRate(self, code, data):
+		return self.m_ctp.getMarginRate(self.m_ctpID,  c_char_p(code.encode('utf-8')), data)
 	#获取投资者持仓数据
 	#data 返回数据 create_string_buffer(1024000)
-	def getPositionData(data):
+	def getPositionData(self, data):
 		return self.m_ctp.getPositionData(self.m_ctpID, data)
 	#获取投资者持仓明细数据
 	#data 返回数据 create_string_buffer(1024000)
-	def getPositionDetailData(data):
+	def getPositionDetailData(self, data):
 		return self.m_ctp.getPositionDetailData(self.m_ctpID, data)
 	#获取最新的委托回报（上一条）
 	#data 返回数据 create_string_buffer(1024000)
-	def getOrderInfo(data):
+	def getOrderInfo(self, data):
 		return self.m_ctp.getOrderInfo(self.m_ctpID, data)
 	#获取所有的最新委托回报（今天的所有委托）
 	#data 返回数据 create_string_buffer(1024000)
-	def getOrderInfos(data):
+	def getOrderInfos(self, data):
 		return self.m_ctp.getOrderInfos(self.m_ctpID, data)
 	#获取所有的最新委托回报（今天的所有委托）
 	#data 返回数据 create_string_buffer(1024000)
-	def getOrderInfos(data):
+	def getOrderInfos(self, data):
 		return self.m_ctp.getOrderInfos(self.m_ctpID, data)
 	#获取sessionID
-	def getSessionID():
+	def getSessionID(self):
 		return self.m_ctp.getSessionID(self.m_ctpID)
 	#获取结算单信息
 	#data 返回数据 create_string_buffer(1024000)
-	def getSettlementInfo(data):
+	def getSettlementInfo(self, data):
 		return self.m_ctp.getSettlementInfo(self.m_ctpID, data)
 	#获取最新成交记录（上一条） 
 	#data 返回数据 create_string_buffer(1024000)
-	def getTradeRecord(data):
+	def getTradeRecord(self, data):
 		return self.m_ctp.getTradeRecord(self.m_ctpID, data)
 	#获取最新交易记录（今天的所有交易）
 	#data 返回数据 create_string_buffer(1024000)
-	def getTradeRecords(data):
+	def getTradeRecords(self, data):
 		return self.m_ctp.getTradeRecords(self.m_ctpID, data)
 	#获取交易日期
 	#data 返回数据 create_string_buffer(1024000)
-	def getTradingDate(data):
+	def getTradingDate(self, data):
 		return self.m_ctp.getTradingDate(self.m_ctpID, data)
 	#获取交易时间
 	#data 返回数据 create_string_buffer(1024000)
-	def getTradingTime(data):
+	def getTradingTime(self, data):
 		return self.m_ctp.getTradingTime(self.m_ctpID, data)
 	#当天是否已经结算
-	def isClearanced(data):
+	def isClearanced(self, data):
 		return self.m_ctp.isClearanced(self.m_ctpID)
 	#是否是结算时间
-	def isClearanceTime():
+	def isClearanceTime(self):
 		return self.m_ctp.isClearanceTime(self.m_ctpID)
 	#数据是否准备好
-	def isDataOk():
+	def isDataOk(self):
 		return self.m_ctp.isDataOk(self.m_ctpID)
 	#行情数据服务器是否已经登录
-	def isMdLogined():
+	def isMdLogined(self):
 		return self.m_ctp.isMdLogined(self.m_ctpID)
 	#交易是否已经登录
-	def isTdLogined():
+	def isTdLogined(self):
 		return self.m_ctp.isTdLogined(self.m_ctpID)
 	#是否是交易时间
-	def isTradingTime():
+	def isTradingTime(self):
 		return self.m_ctp.isTradingTime(self.m_ctpID)
 	#是否是精确交易时间(去掉集合竞价时间和休息时间)
 	#code 代码 c_char_p
-	def isTradingTimeExact(code):
-		return self.m_ctp.isTradingTimeExact(self.m_ctpID, code)
+	def isTradingTimeExact(self, code):
+		return self.m_ctp.isTradingTimeExact(self.m_ctpID,  c_char_p(code.encode('utf-8')))
 	#请求手续费率
 	#code 代码 c_char_p
 	#requestID 请求ID c_int
-	def reqCommissionRate(code, requestID):
-		return self.m_ctp.reqCommissionRate(self.m_ctpID, code, requestID)
+	def reqCommissionRate(self, code, requestID):
+		return self.m_ctp.reqCommissionRate(self.m_ctpID,  c_char_p(code.encode('utf-8')), c_int(requestID))
 	#请求确认结算信息
 	#requestID 请求ID c_int
-	def reqQrySettlementInfoConfirm(requestID):
-		return self.m_ctp.reqQrySettlementInfoConfirm(self.m_ctpID, requestID)
+	def reqQrySettlementInfoConfirm(self, requestID):
+		return self.m_ctp.reqQrySettlementInfoConfirm(self.m_ctpID, c_int(requestID))
 	#请求确认结算信息
 	#requestID 请求ID c_int
 	#tradingDay 交易日 c_char_p
-	def reqQrySettlementInfo(requestID, tradingDay):
-		return self.m_ctp.reqQrySettlementInfo(self.m_ctpID, requestID, tradingDay)
+	def reqQrySettlementInfo(self, requestID, tradingDay):
+		return self.m_ctp.reqQrySettlementInfo(self.m_ctpID, c_int(requestID),  c_char_p(tradingDay.encode('utf-8')))
 	#请求保证金率
 	#code 代码 c_char_p
 	#requestID 请求ID c_int
-	def reqMarginRate(code, requestID):
-		return self.m_ctp.reqMarginRate(self.m_ctpID, code, requestID)
+	def reqMarginRate(self, code, requestID):
+		return self.m_ctp.reqMarginRate(self.m_ctpID, c_char_p(code.encode('utf-8')), c_int(requestID))
 	#启动创建的连接(在create后执行)
 	#requestID 请求ID c_int
 	#appID APPID c_char_p
@@ -1198,15 +1198,15 @@ class CTPDLL(object):
 	#brokerID 机构号 c_char_p
 	#investorID 投资者账号 c_char_p
 	#password 密码 c_char_p
-	def start(requestID, appID, authCode, mdServer, tdServer, brokerID, investorID, password):
-		return self.m_ctp.start(self.m_ctpID, requestID, appID, authCode, mdServer, tdServer, brokerID, investorID, password)
+	def start(self, requestID, appID, authCode, mdServer, tdServer, brokerID, investorID, password):
+		return self.m_ctp.start(self.m_ctpID, c_int(requestID), c_char_p(appID.encode('utf-8')), c_char_p(authCode.encode('utf-8')), c_char_p(mdServer.encode('utf-8')), c_char_p(tdServer.encode('utf-8')), c_char_p(brokerID.encode('utf-8')), c_char_p(investorID.encode('utf-8')), c_char_p(password.encode('utf-8')))
 	#订阅多个合约的行情数据
 	#requestID 请求ID c_int
 	#code 代码 c_char_p
-	def subMarketDatas(requestID, code):
-		return self.m_ctp.subMarketDatas(self.m_ctpID, requestID, code)
+	def subMarketDatas(self, requestID, code):
+		return self.m_ctp.subMarketDatas(self.m_ctpID, int(requestID), c_char_p(code.encode('utf-8')))
 	#取消订阅多个合约的行情数据
 	#requestID 请求ID c_int
 	#code 代码 c_char_p
-	def unSubMarketDatas(requestID, code):
-		return self.m_ctp.unSubMarketDatas(self.m_ctpID, requestID, code)
+	def unSubMarketDatas(self, requestID, code):
+		return self.m_ctp.unSubMarketDatas(self.m_ctpID, int(requestID), c_char_p(code.encode('utf-8')))

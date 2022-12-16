@@ -394,7 +394,6 @@ def onViewMouseUp(view, mp, buttons, clicks, delta):
 def onViewClick(view, mp, buttons, clicks, delta):
 	global m_paint
 	global ctp
-	global ctpID
 	if(view.m_type == "radiobutton"):
 		clickRadioButton(view, mp)
 		if(view.m_parent != None):
@@ -424,25 +423,20 @@ def onViewClick(view, mp, buttons, clicks, delta):
 			exchangeID = m_allCodes[issueCode].exchangeID
 			volume = int(getHWndText(spinVolume.m_hWnd))
 			price = float(getHWndText(spinPrice.m_hWnd))
-			bCode = issueCode.encode('utf-8')
-			bExchangeID = exchangeID.encode('utf-8')
-			bPrice = c_double(price)
-			bVolume = c_int(volume)
-			bCondition = c_char(51)
 			if(rbBuy.m_checked):
 				if(rbOpen.m_checked):
-					ctp.bidOpen(ctpID, ctp.generateReqID(ctpID), c_char_p(bCode), c_char_p(bExchangeID), bPrice, bVolume, bCondition, c_char_p(b""))
+					ctp.bidOpen(ctp.generateReqID(), issueCode, exchangeID, price, volume, '3', "")
 				elif(rbCloseToday.m_checked):
-					ctp.bidCloseToday(ctpID, ctp.generateReqID(ctpID), c_char_p(bCode), c_char_p(bExchangeID), bPrice, bVolume, bCondition, c_char_p(b""))
+					ctp.bidCloseToday(ctp.generateReqID(), issueCode, exchangeID, price, volume, '3', "")
 				elif(rbClose.m_checked):
-					ctp.bidClose(ctpID, ctp.generateReqID(ctpID), c_char_p(bCode), c_char_p(bExchangeID), bPrice, bVolume, bCondition, c_char_p(b""))
+					ctp.bidClose(ctp.generateReqID(), issueCode, exchangeID, price, volume, '3', "")
 			else:
 				if(rbOpen.m_checked):
-					ctp.askOpen(ctpID, ctp.generateReqID(ctpID), c_char_p(bCode), c_char_p(bExchangeID), bPrice, bVolume, bCondition, c_char_p(b""))
+					ctp.askOpen(ctp.generateReqID(), issueCode, exchangeID, price, volume, '3', "")
 				elif(rbCloseToday.m_checked):
-					ctp.askCloseToday(ctpID, ctp.generateReqID(ctpID), c_char_p(bCode), c_char_p(bExchangeID), bPrice, bVolume, bCondition, c_char_p(b""))
+					ctp.askCloseToday(ctp.generateReqID(), issueCode, exchangeID, price, volume, '3', "")
 				elif(rbClose.m_checked):
-					ctp.askClose(ctpID, ctp.generateReqID(ctpID), c_char_p(bCode), c_char_p(bExchangeID), bPrice, bVolume, bCondition, c_char_p(b""))
+					ctp.askClose(ctp.generateReqID(), issueCode, exchangeID, price, volume, '3', "")
 	elif(view.m_name == "btnCancelOrder2"):
 		gridOrder = findViewByName("gridOrder", m_paint.m_views)
 		for i in range(0, len(gridOrder.m_rows)):
@@ -450,9 +444,7 @@ def onViewClick(view, mp, buttons, clicks, delta):
 			if(row.m_selected):
 				orderSysID = row.m_cells[0].m_value
 				exchangeID = row.m_cells[16].m_value
-				bOrderSysID = orderSysID.encode('utf-8')
-				bExchangeID = exchangeID.encode('utf-8')
-				ctp.cancelOrder(ctpID, ctp.generateReqID(ctpID), c_char_p(bExchangeID), c_char_p(bOrderSysID), c_char_p(b""))
+				ctp.cancelOrder(ctpID, ctp.generateReqID(ctpID), exchangeID, orderSysID, "")
 				break
 				
 	if(view.m_name == "cbInvestorPosition"):
@@ -986,71 +978,66 @@ def onTradeRecordsCallBack(data, ctpID):
 		row.m_cells.append(cell12)
 	invalidateView(gridTradeRecord, gridTradeRecord.m_paint)
 
-ctp = 0 #ctp的dll
-ctpID = 0 #ctp的ID
+ctp = None #ctp
 
 #检查CTP的数据
 def checkCTPData(a='', b=''):
 	global ctp
-	global ctpID
-	while (ctp.hasNewDatas(ctpID)):
+	while (ctp.hasNewDatas()):
 		recvData = create_string_buffer(1024000)
-		if (ctp.getDepthMarketData(ctpID, recvData) > 0):
+		if (ctp.getDepthMarketData(recvData) > 0):
 			data = pyctp.convertToCTPDepthMarketData(str(recvData.value, encoding="gbk"))
-			onSecurityLatestDataCallBack(data, ctpID)
+			onSecurityLatestDataCallBack(data)
 			continue
-		if (ctp.getInstrumentsData(ctpID, recvData) > 0):
+		if (ctp.getInstrumentsData(recvData) > 0):
 			data = pyctp.convertToCTPInstrumentDatas(str(recvData.value, encoding="gbk"))
-			onSecurityCallBack(data, ctpID)
+			onSecurityCallBack(data, ctp.m_ctpID)
 			continue
-		if (ctp.getAccountData(ctpID, recvData) > 0):
+		if (ctp.getAccountData(recvData) > 0):
 			data = pyctp.convertToCTPAccountData(str(recvData.value, encoding="gbk"))
-			onAccountDataCallBack(data, ctpID)
+			onAccountDataCallBack(data, ctp.m_ctpID)
 			continue
-		if (ctp.getOrderInfo(ctpID, recvData) > 0):
+		if (ctp.getOrderInfo(recvData) > 0):
 			data = pyctp.convertToCTPOrder(str(recvData.value, encoding="gbk"))
-			onOrderInfoCallBack(data, ctpID)
+			onOrderInfoCallBack(data, ctp.m_ctpID)
 			continue
-		if (ctp.getOrderInfos(ctpID, recvData) > 0):
+		if (ctp.getOrderInfos(recvData) > 0):
 			data = pyctp.convertToCTPOrderList(str(recvData.value, encoding="gbk"))
-			onOrderInfosCallBack(data, ctpID)
+			onOrderInfosCallBack(data, ctp.m_ctpID)
 			continue
-		if (ctp.getTradeRecord(ctpID, recvData) > 0):
+		if (ctp.getTradeRecord(recvData) > 0):
 			data = pyctp.convertToCTPTrade(str(recvData.value, encoding="gbk"))
-			onTradeRecordCallBack(data, ctpID)
+			onTradeRecordCallBack(data, ctp.m_ctpID)
 			continue
-		if (ctp.getTradeRecords(ctpID, recvData) > 0):
+		if (ctp.getTradeRecords(recvData) > 0):
 			data = pyctp.convertToCTPTradeRecords(str(recvData.value, encoding="gbk"))
-			onTradeRecordsCallBack(data, ctpID)
+			onTradeRecordsCallBack(data, ctp.m_ctpID)
 			continue
-		if (ctp.getPositionData(ctpID, recvData) > 0):
+		if (ctp.getPositionData(recvData) > 0):
 			data = pyctp.convertToCTPInvestorPosition(str(recvData.value, encoding="gbk"))
-			onInvestorPositionCallBack(data, ctpID)
+			onInvestorPositionCallBack(data, ctp.m_ctpID)
 			continue
-		if (ctp.getPositionDetailData(ctpID, recvData) > 0):
+		if (ctp.getPositionDetailData(recvData) > 0):
 			data = pyctp.convertToCTPInvestorPositionDetail(str(recvData.value, encoding="gbk"))
-			onInvestorPositionDetailCallBack(data, ctpID)
+			onInvestorPositionDetailCallBack(data, ctp.m_ctpID)
 			continue
 
 #启动CTP
 def runCTP():
 	global ctp
-	global ctpID
-	# 创建dll
-	ctp = cdll.LoadLibrary(os.getcwd() + r"\\iCTP.dll")
-	cdll.argtypes = [c_char_p, c_int, c_double, c_long, c_wchar_p]
-	print("CTP Python启动!")
-	ctpID = ctp.create()
-	reqID = ctp.generateReqID(ctpID)
+	ctp = pyctp.CTPDLL()
+	ctp.init()
+	ctp.m_ctpID = ctp.create()
+	reqID = ctp.generateReqID()
 	# 启动CTP交易和行情
-	ctp.start(ctpID, reqID, c_char_p(b"simnow_client_test"), c_char_p(b"0000000000000000"), c_char_p(b"180.168.146.187:10212"), c_char_p(b"180.168.146.187:10202"), c_char_p(b"9999"), c_char_p(b"021739"), c_char_p(b"123456"))
+	ctp.start(reqID, "simnow_client_test", "0000000000000000", "180.168.146.187:10212", "180.168.146.187:10202", "9999", "021739", "123456")
 	# 检查是否登陆成功
-	while (ctp.isDataOk(ctpID) <= 0):
+	while (ctp.isDataOk() <= 0):
 		time.sleep(1)
 	print("登陆CTP成功!")
 	# 注册行情
-	reqID = ctp.generateReqID(ctpID)
-	ctp.subMarketDatas(ctpID, reqID, c_char_p(b"cu2301,cu2302,cu2303,rb2301,rb2302,rb2304,ru2301,ru2302,ru2303"))
+	reqID = ctp.generateReqID()
+	ctp.subMarketDatas(reqID, "cu2301,cu2302,cu2303,rb2301,rb2302,rb2304,ru2301,ru2302,ru2303")
 	timer.set_timer(1, checkCTPData)
 
 #点击单元格
