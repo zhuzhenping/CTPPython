@@ -1005,7 +1005,7 @@ class CTPDLL(object):
 	#exchangeID 交易所ID c_char_p
 	#price 价格 c_double
 	#qty 数量 c_int
-	#timeCondition 有效期 c_char_p
+	#timeCondition 有效期 c_char(51)
 	#orderRef 附加信息 c_char_p
 	def askClose(requestID, code, exchangeID, price, qty, timeCondition, orderRef):
 		return self.m_ctp.askClose(self.m_ctpID, requestID, code, exchangeID, price, qty, timeCondition, orderRef)
@@ -1015,7 +1015,7 @@ class CTPDLL(object):
 	#exchangeID 交易所ID c_char_p
 	#price 价格 c_double
 	#qty 数量 c_int
-	#timeCondition 有效期 c_char_p
+	#timeCondition 有效期 c_char(51)
 	#orderRef 附加信息 c_char_p
 	def askCloseToday(requestID, code, exchangeID, price, qty, timeCondition, orderRef):
 		return self.m_ctp.askCloseToday(self.m_ctpID, requestID, code, exchangeID, price, qty, timeCondition, orderRef)
@@ -1025,7 +1025,7 @@ class CTPDLL(object):
 	#exchangeID 交易所ID c_char_p
 	#price 价格 c_double
 	#qty 数量 c_int
-	#timeCondition 有效期 c_char_p
+	#timeCondition 有效期 c_char(51)
 	#orderRef 附加信息 c_char_p
 	def askOpen(requestID, code, exchangeID, price, qty, timeCondition, orderRef):
 		return self.m_ctp.askOpen(self.m_ctpID, requestID, code, exchangeID, price, qty, timeCondition, orderRef)
@@ -1035,7 +1035,7 @@ class CTPDLL(object):
 	#exchangeID 交易所ID c_char_p
 	#price 价格 c_double
 	#qty 数量 c_int
-	#timeCondition 有效期 c_char_p
+	#timeCondition 有效期 c_char(51)
 	#orderRef 附加信息 c_char_p
 	def bidClose(requestID, code, exchangeID, price, qty, timeCondition, orderRef):
 		return self.m_ctp.bidClose(self.m_ctpID, requestID, code, exchangeID, price, qty, timeCondition, orderRef)
@@ -1045,7 +1045,7 @@ class CTPDLL(object):
 	#exchangeID 交易所ID c_char_p
 	#price 价格 c_double
 	#qty 数量 c_int
-	#timeCondition 有效期 c_char_p
+	#timeCondition 有效期 c_char(51)
 	#orderRef 附加信息 c_char_p
 	def bidCloseToday(requestID, code, exchangeID, price, qty, timeCondition, orderRef):
 		return self.m_ctp.bidCloseToday(self.m_ctpID, requestID, code, exchangeID, price, qty, timeCondition, orderRef)
@@ -1055,7 +1055,7 @@ class CTPDLL(object):
 	#exchangeID 交易所ID c_char_p
 	#price 价格 c_double
 	#qty 数量 c_int
-	#timeCondition 有效期 c_char_p
+	#timeCondition 有效期 c_char(51)
 	#orderRef 附加信息 c_char_p
 	def bidOpen(requestID, code, exchangeID, price, qty, timeCondition, orderRef):
 		return self.m_ctp.bidOpen(self.m_ctpID, requestID, code, exchangeID, price, qty, timeCondition, orderRef)
