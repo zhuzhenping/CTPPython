@@ -425,18 +425,18 @@ def onViewClick(view, mp, buttons, clicks, delta):
 			price = float(getHWndText(spinPrice.m_hWnd))
 			if(rbBuy.m_checked):
 				if(rbOpen.m_checked):
-					ctp.bidOpen(ctp.generateReqID(), issueCode, exchangeID, price, volume, '3', "")
+					ctp.bidOpen(ctp.generateReqID(), issueCode, exchangeID, price, volume, 51, "")
 				elif(rbCloseToday.m_checked):
-					ctp.bidCloseToday(ctp.generateReqID(), issueCode, exchangeID, price, volume, '3', "")
+					ctp.bidCloseToday(ctp.generateReqID(), issueCode, exchangeID, price, volume, 51, "")
 				elif(rbClose.m_checked):
-					ctp.bidClose(ctp.generateReqID(), issueCode, exchangeID, price, volume, '3', "")
+					ctp.bidClose(ctp.generateReqID(), issueCode, exchangeID, price, volume, 51, "")
 			else:
 				if(rbOpen.m_checked):
-					ctp.askOpen(ctp.generateReqID(), issueCode, exchangeID, price, volume, '3', "")
+					ctp.askOpen(ctp.generateReqID(), issueCode, exchangeID, price, volume, 51, "")
 				elif(rbCloseToday.m_checked):
-					ctp.askCloseToday(ctp.generateReqID(), issueCode, exchangeID, price, volume, '3', "")
+					ctp.askCloseToday(ctp.generateReqID(), issueCode, exchangeID, price, volume, 51, "")
 				elif(rbClose.m_checked):
-					ctp.askClose(ctp.generateReqID(), issueCode, exchangeID, price, volume, '3', "")
+					ctp.askClose(ctp.generateReqID(), issueCode, exchangeID, price, volume, 51, "")
 	elif(view.m_name == "btnCancelOrder2"):
 		gridOrder = findViewByName("gridOrder", m_paint.m_views)
 		for i in range(0, len(gridOrder.m_rows)):
@@ -444,7 +444,7 @@ def onViewClick(view, mp, buttons, clicks, delta):
 			if(row.m_selected):
 				orderSysID = row.m_cells[0].m_value
 				exchangeID = row.m_cells[16].m_value
-				ctp.cancelOrder(ctpID, ctp.generateReqID(ctpID), exchangeID, orderSysID, "")
+				ctp.cancelOrder(ctp.generateReqID(), exchangeID, orderSysID, "")
 				break
 				
 	if(view.m_name == "cbInvestorPosition"):
@@ -987,7 +987,7 @@ def checkCTPData(a='', b=''):
 		recvData = create_string_buffer(1024000)
 		if (ctp.getDepthMarketData(recvData) > 0):
 			data = pyctp.convertToCTPDepthMarketData(str(recvData.value, encoding="gbk"))
-			onSecurityLatestDataCallBack(data)
+			onSecurityLatestDataCallBack(data, ctp.m_ctpID)
 			continue
 		if (ctp.getInstrumentsData(recvData) > 0):
 			data = pyctp.convertToCTPInstrumentDatas(str(recvData.value, encoding="gbk"))

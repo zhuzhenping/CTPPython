@@ -1065,7 +1065,7 @@ class CTPDLL(object):
 	#orderSysID 委托编号 c_char_p
 	#orderRef 附加信息 c_char_p
 	def cancelOrder(self, requestID, exchangeID, orderSysID, orderRef):
-		return self.cancelOrder(self.m_ctpID, c_int(requestID), c_char_p(exchangeID.encode('utf-8')), c_char_p(orderSysID.encode('utf-8')), c_char_p(orderRef.encode('utf-8')))
+		return self.m_ctp.cancelOrder(self.m_ctpID, c_int(requestID), c_char_p(exchangeID.encode('utf-8')), c_char_p(orderSysID.encode('utf-8')), c_char_p(orderRef.encode('utf-8')))
 	#创建交易
 	def create(self):
 		return self.m_ctp.create()
