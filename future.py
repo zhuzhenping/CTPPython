@@ -982,14 +982,10 @@ ctp = None #ctp
 def checkCTPData(a='', b=''):
 	global ctp
 	while (ctp.hasNewDatas()):
-		recvData = create_string_buffer(1024000)
+		recvData = create_string_buffer(102400)
 		if (ctp.getDepthMarketData(recvData) > 0):
 			data = pyctp.convertToCTPDepthMarketData(str(recvData.value, encoding="gbk"))
 			onSecurityLatestDataCallBack(data, ctp.m_ctpID)
-			continue
-		if (ctp.getInstrumentsData(recvData) > 0):
-			data = pyctp.convertToCTPInstrumentDatas(str(recvData.value, encoding="gbk"))
-			onSecurityCallBack(data, ctp.m_ctpID)
 			continue
 		if (ctp.getAccountData(recvData) > 0):
 			data = pyctp.convertToCTPAccountData(str(recvData.value, encoding="gbk"))
@@ -999,17 +995,9 @@ def checkCTPData(a='', b=''):
 			data = pyctp.convertToCTPOrder(str(recvData.value, encoding="gbk"))
 			onOrderInfoCallBack(data, ctp.m_ctpID)
 			continue
-		if (ctp.getOrderInfos(recvData) > 0):
-			data = pyctp.convertToCTPOrderList(str(recvData.value, encoding="gbk"))
-			onOrderInfosCallBack(data, ctp.m_ctpID)
-			continue
 		if (ctp.getTradeRecord(recvData) > 0):
 			data = pyctp.convertToCTPTrade(str(recvData.value, encoding="gbk"))
 			onTradeRecordCallBack(data, ctp.m_ctpID)
-			continue
-		if (ctp.getTradeRecords(recvData) > 0):
-			data = pyctp.convertToCTPTradeRecords(str(recvData.value, encoding="gbk"))
-			onTradeRecordsCallBack(data, ctp.m_ctpID)
 			continue
 		if (ctp.getPositionData(recvData) > 0):
 			data = pyctp.convertToCTPInvestorPosition(str(recvData.value, encoding="gbk"))
@@ -1033,6 +1021,18 @@ def runCTP():
 	while (ctp.isDataOk() <= 0):
 		time.sleep(1)
 	print("登陆CTP成功!")
+	recvData = create_string_buffer(1024 * 1024 * 10)
+	if (ctp.getInstrumentsData(recvData) > 0):
+		data = pyctp.convertToCTPInstrumentDatas(str(recvData.value, encoding="gbk"))
+		onSecurityCallBack(data, ctp.m_ctpID)
+	recvData = create_string_buffer(1024 * 1024 * 10)
+	if (ctp.getOrderInfos(recvData) > 0):
+		data = pyctp.convertToCTPOrderList(str(recvData.value, encoding="gbk"))
+		onOrderInfosCallBack(data, ctp.m_ctpID)
+	recvData = create_string_buffer(1024 * 1024 * 10)
+	if (ctp.getTradeRecords(recvData) > 0):
+		data = pyctp.convertToCTPTradeRecords(str(recvData.value, encoding="gbk"))
+		onTradeRecordsCallBack(data, ctp.m_ctpID)
 	# 注册行情
 	reqID = ctp.generateReqID()
 	ctp.subMarketDatas(reqID, "cu2301,cu2302,cu2303,rb2301,rb2302,rb2304,ru2301,ru2302,ru2303")
