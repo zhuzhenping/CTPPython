@@ -686,8 +686,8 @@ def convertToCTPDepthMarketData(str):
 			cTPDepthMarketData = SecurityLatestData()
 			cTPDepthMarketData.tradingDay = results[0]
 			cTPDepthMarketData.code = results[1]
-			exchangeID = results[2]
-			exchangeInstID = results[3]
+			cTPDepthMarketData.exchangeID = results[2]
+			cTPDepthMarketData.exchangeInstID = results[3]
 			cTPDepthMarketData.close = results[4]
 			cTPDepthMarketData.preSettlementPrice = results[5]
 			cTPDepthMarketData.preClose = results[6]
