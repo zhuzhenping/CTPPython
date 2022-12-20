@@ -150,8 +150,10 @@ def readXmlNode(paint, node, parent):
 				typeStr = child.attrib["type"]
 			if(typeStr == "radio"):
 				view = FCRadioButton()
+				view.m_backColor = "none"
 			elif(typeStr == "checkbox"):
 				view = FCCheckBox()
+				view.m_backColor = "none"
 			elif(typeStr == "button"):
 				view = FCView()
 				view.m_type = "button"
@@ -641,6 +643,8 @@ def onInvestorPositionDetailCallBack(data, ctpID):
 def onOrderInfoCallBack(data, ctpID):
 	if (data.orderStatus == "未知"):
 		return
+	if(len(data.orderSysID) == 0):
+		return
 	global m_paint
 	gridOrder = findViewByName("gridOrder", m_paint.m_views)
 	row = None
@@ -889,6 +893,8 @@ def onSecurityLatestDataCallBack(data, ctpID):
 
 #成交回报回调
 def onTradeRecordCallBack(data, ctpID):
+	if(len(data.tradeID) == 0):
+		return
 	global m_paint
 	gridTradeRecord = findViewByName("gridTradeRecord", m_paint.m_views)
 	row = FCGridRow()
