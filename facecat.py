@@ -73,8 +73,6 @@ class FCPaint(object):
 		self.m_innerHDC = None #内部HDC
 		self.m_innerBM = None #内部BM
 		self.m_clipRect = None #裁剪区域
-		self.m_hFont = None #字体
-		self.m_hOldFont = None #旧的字体
 	#开始绘图 
 	#rect:区域
 	def beginPaint(self, rect):
@@ -316,22 +314,10 @@ class FCPaint(object):
 		self.m_offsetY = 0
 		self.m_innerBM = win32gui.CreateCompatibleBitmap(self.m_drawHDC, int(rect.right - rect.left),  int(rect.bottom - rect.top))
 		win32gui.SelectObject(self.m_innerHDC, self.m_innerBM)
-		lf = win32gui.LOGFONT()
-		lf.lfFaceName = "Arial"
-		lf.lfHeight = int(round(16))
-		self.m_hFont = win32gui.CreateFontIndirect(lf)
-		self.m_hOldFont = win32gui.SelectObject(self.m_innerHDC, self.m_hFont);
-		win32gui.SelectObject(self.m_innerHDC, self.m_hFont)
 	#结束裁剪
 	#rect:区域
 	#clipRect:裁剪区域
 	def endClip(self, rect, clipRect):		
-		if(self.m_hOldFont != None):
-			win32gui.SelectObject(self.m_innerHDC, self.m_hOldFont);
-			self.m_hOldFont = None
-		if(self.m_hFont != None):
-			win32gui.DeleteObject(self.m_hFont);
-			self.m_hFont = None
 		win32gui.StretchBlt(self.m_drawHDC, int(clipRect.left), int(clipRect.top), int(clipRect.right - clipRect.left), int(clipRect.bottom - clipRect.top), self.m_innerHDC, int(clipRect.left - rect.left), int(clipRect.top - rect.top), int(clipRect.right - clipRect.left), int(clipRect.bottom - clipRect.top), 13369376)
 		if(self.m_innerHDC != None):
 			win32gui.DeleteObject(self.m_innerHDC)
@@ -341,7 +327,6 @@ class FCPaint(object):
 			self.m_innerBM = None
 		self.m_innerHDC = self.m_drawHDC
 		self.m_innerBM = self.m_memBM
-
 
 #基础视图
 class FCView(object):
@@ -634,18 +619,22 @@ class FCChart(FCView):
 		self.m_volMin = 0 #成交量层的最小值
 		self.m_indMax = 0 #指标层的最大值
 		self.m_indMin = 0 #指标层的最小值
+		self.m_indMax2 = 0 #指标层2的最大值
+		self.m_indMin2 = 0 #指标层2的最小值
 		self.m_crossTipColor = "rgb(50,50,50)" #十字线标识的颜色
 		self.m_crossLineColor = "rgb(100,100,100)" #十字线的颜色
 		self.m_font = "12px Arial" #字体
 		self.m_candleDigit = 2 #K线层保留小数的位数
 		self.m_volDigit = 0 #成交量层保留小数的位数
 		self.m_indDigit = 2 #指标层保留小数的位数
+		self.m_indDigit2 = 2 #指标层2保留小数的位数
 		self.m_lastRecordIsVisible = TRUE #最后记录是否可见
 		self.m_lastVisibleKey = 0 #最后可见的主键
 		self.m_autoFillHScale = FALSE #是否填充满X轴
 		self.m_candleDivPercent = 0.5 #K线层的占比
 		self.m_volDivPercent = 0.2 #成交量层的占比
 		self.m_indDivPercent = 0.3 #指标层的占比
+		self.m_indDivPercent2 = 0.0 #指标层2的占比
 		self.m_mainIndicator = "" #主图指标
 		self.m_showIndicator = "" #显示指标
 		self.m_gridColor = "rgb(100,0,0)" #网格颜色 
@@ -657,6 +646,8 @@ class FCChart(FCView):
 		self.m_volPaddingBottom = 0 #成交量层的下边距
 		self.m_indPaddingTop = 20 #指标层的上边距
 		self.m_indPaddingBottom = 20 #指标层的下边距
+		self.m_indPaddingTop2 = 20 #指标层2的上边距
+		self.m_indPaddingBottom2 = 20 #指标层2的下边距
 		self.m_vScaleDistance = 35 #纵轴的间隔
 		self.m_vScaleType = "standard" #纵轴的类型 log10代表指数坐标
 		self.m_plots = [] #画线的集合
@@ -2612,6 +2603,15 @@ def getIndDivHeight(chart):
 	else:
 		return 0
 
+#获取指标层2的高度
+#chart:K线
+def getIndDivHeight2(chart):
+	height = chart.m_size.cy - chart.m_hScaleHeight
+	if(height > 0):
+		return height * chart.m_indDivPercent2
+	else:
+		return 0
+
 #获取横向工作区
 #chart:K线
 def getChartWorkAreaWidth(chart):
@@ -2754,6 +2754,16 @@ def getChartY(chart, divIndex, value):
 			return candleHeight + volHeight + indHeight - chart.m_indPaddingBottom - (indHeight - chart.m_indPaddingTop - chart.m_indPaddingBottom) * rate
 		else:	
 			return 0
+	elif(divIndex == 2):
+		if(chart.m_indMax2 > chart.m_indMin2):
+			rate = (value - chart.m_indMin2) / (chart.m_indMax2 - chart.m_indMin2)
+			candleHeight = getCandleDivHeight(chart)
+			volHeight = getVolDivHeight(chart)
+			indHeight = getIndDivHeight(chart)
+			indHeight2 = getIndDivHeight2(chart)
+			return candleHeight + volHeight + indHeight + indHeight2- chart.m_indPaddingBottom2 - (indHeight2 - chart.m_indPaddingTop2 - chart.m_indPaddingBottom2) * rate
+		else:	
+			return 0
 	return 0
 
 
@@ -2764,6 +2774,7 @@ def getChartValue(chart, point):
 	candleHeight = getCandleDivHeight(chart)
 	volHeight = getVolDivHeight(chart)
 	indHeight = getIndDivHeight(chart)
+	indHeight2 = getIndDivHeight2(chart)
 	if(point.y <= candleHeight):
 		rate = (candleHeight - chart.m_candlePaddingBottom - point.y) / (candleHeight - chart.m_candlePaddingTop - chart.m_candlePaddingBottom)
 		cMin = chart.m_candleMin
@@ -2788,6 +2799,9 @@ def getChartValue(chart, point):
 	elif(point.y > candleHeight + volHeight and point.y <= candleHeight + volHeight + indHeight):
 		rate = (indHeight - chart.m_indPaddingBottom - (point.y - candleHeight - volHeight)) / (indHeight - chart.m_indPaddingTop - chart.m_indPaddingBottom)
 		return chart.m_indMin + (chart.m_indMax - chart.m_indMin) * rate
+	elif(point.y > candleHeight + volHeight + indHeight and point.y <= candleHeight + volHeight + indHeight + indHeight2):
+		rate = (indHeight2 - chart.m_indPaddingBottom2 - (point.y - candleHeight - volHeight - indHeight)) / (indHeight2 - chart.m_indPaddingTop2 - chart.m_indPaddingBottom2)
+		return chart.m_indMin2 + (chart.m_indMax2 - chart.m_indMin2) * rate
 	return 0
 
 #根据坐标获取K线层对应的值
