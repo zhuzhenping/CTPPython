@@ -318,7 +318,7 @@ class FCPaint(object):
 		self.m_innerBM = win32gui.CreateCompatibleBitmap(self.m_drawHDC, int(rect.right - rect.left),  int(rect.bottom - rect.top))
 		win32gui.SelectObject(self.m_innerHDC, self.m_innerBM)
 		lf = win32gui.LOGFONT()
-		lf.lfFaceName = "Arial"
+		lf.lfFaceName = "New Times Roman"
 		lf.lfHeight = int(round(16))
 		lf.lfWeight = 700
 		self.m_hFont = win32gui.CreateFontIndirect(lf)

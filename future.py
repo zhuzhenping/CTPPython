@@ -550,7 +550,7 @@ def onAccountDataCallBack(data, ctpID):
 	gridTradeAccount.m_rows[0].m_cells[5].m_value = toFixed2(data.currMargin, 0)
 	gridTradeAccount.m_rows[0].m_cells[6].m_value = toFixed2(data.frozenCash, 0)
 	gridTradeAccount.m_rows[0].m_cells[7].m_value = toFixed2(data.available, 0)
-	gridTradeAccount.m_rows[0].m_cells[8].m_value = toFixed2(float(data.risk) * 100, 2) + "%"
+	gridTradeAccount.m_rows[0].m_cells[8].m_value = toFixed2(data.risk * 100, 2) + "%"
 	gridTradeAccount.m_rows[0].m_cells[9].m_value = toFixed2(data.frozenMargin, 0)
 	gridTradeAccount.m_rows[0].m_cells[10].m_value = toFixed2(data.frozenCommission, 0)
 	gridTradeAccount.m_rows[0].m_cells[11].m_value = toFixed2(data.commission, 0)
@@ -584,10 +584,10 @@ def onInvestorPositionCallBack(data, ctpID):
 
 		row.m_cells[0].m_value = data[i].code
 		row.m_cells[1].m_value = data[i].posiDirection
-		row.m_cells[2].m_value = int(data[i].ydPosition) + int(data[i].todayPosition)
-		row.m_cells[3].m_value = int(data[i].ydPosition)
-		row.m_cells[4].m_value = int(data[i].todayPosition)
-		row.m_cells[5].m_value = int(data[i].position) - pyctp.getFrozenAmount(data[i])
+		row.m_cells[2].m_value = data[i].ydPosition + data[i].todayPosition
+		row.m_cells[3].m_value = data[i].ydPosition
+		row.m_cells[4].m_value = data[i].todayPosition
+		row.m_cells[5].m_value = data[i].position - pyctp.getFrozenAmount(data[i])
 		row.m_cells[6].m_value = toFixed2(data[i].positionCost, 0)
 		row.m_cells[7].m_value = toFixed2(data[i].positionProfit, 0)
 		setCellStyle2(row.m_cells[7], data[i].positionProfit, 0)
@@ -650,7 +650,7 @@ def onInvestorPositionDetailCallBack(data, ctpID):
 		row.m_cells[0].m_value = data[i].tradeID
 		row.m_cells[1].m_value = data[i].code
 		row.m_cells[2].m_value = data[i].direction
-		row.m_cells[3].m_value = int(data[i].volume)
+		row.m_cells[3].m_value = data[i].volume
 		row.m_cells[4].m_value = toFixed2(data[i].openPrice, 0)
 		row.m_cells[5].m_value = toFixed2(data[i].margin, 0)
 		row.m_cells[6].m_value = data[i].tradeType
@@ -869,7 +869,7 @@ def onSecurityLatestDataCallBack(data, ctpID):
 		row.m_cells[0].m_value = data[d].code
 		newVol = 0
 		if(data[d].code in m_allDatas):
-			newVol = float(data[d].volume) - float(m_allDatas[data[d].code].volume)
+			newVol = data[d].volume - m_allDatas[data[d].code].volume
 		m_allDatas[data[d].code] = data[d]
 		digit = 0
 		if(data[d].code in m_allCodes):
@@ -877,7 +877,7 @@ def onSecurityLatestDataCallBack(data, ctpID):
 			digit = m_allCodes[data[d].code].digit
 		setCellStyle2(row.m_cells[2], row.m_cells[2].m_value, data[d].close)
 		row.m_cells[2].m_value = toFixed2(data[d].close, digit)
-		diff = float(data[d].close) - float(data[d].preSettlementPrice)
+		diff = data[d].close - data[d].preSettlementPrice
 		setCellStyle2(row.m_cells[3], diff, 0)
 		row.m_cells[3].m_value = toFixed2(diff, digit)
 		setCellStyle2(row.m_cells[4], row.m_cells[4].m_value, data[d].bidPrice1)
@@ -899,8 +899,8 @@ def onSecurityLatestDataCallBack(data, ctpID):
 		row.m_cells[15].m_value = toFixed2(data[d].low, digit)
 		row.m_cells[16].m_value = data[d].bidVolume1
 		rangeValue = 0
-		if(float(data[d].preSettlementPrice) != 0):
-			rangeValue = 100 * (float(data[d].close) - float(data[d].preSettlementPrice)) / float(data[d].preSettlementPrice)
+		if(data[d].preSettlementPrice != 0):
+			rangeValue = 100 * (data[d].close - data[d].preSettlementPrice) / data[d].preSettlementPrice
 		row.m_cells[17].m_value = toFixed2(rangeValue, digit) + "%"
 		setCellStyle2(row.m_cells[17], rangeValue, 0)
 		row.m_cells[18].m_value = toFixed2(data[d].preClose, digit)
@@ -921,10 +921,10 @@ def onSecurityLatestDataCallBack(data, ctpID):
 			if(data[d].code == m_currentCode):
 				sData = SecurityData()
 				sData.m_date = len(chart.m_data) + 1
-				sData.m_close = float(data[d].close)
-				sData.m_open = float(data[d].close)
-				sData.m_high = float(data[d].close)
-				sData.m_low = float(data[d].close)
+				sData.m_close = data[d].close
+				sData.m_open = data[d].close
+				sData.m_high = data[d].close
+				sData.m_low = data[d].close
 				sData.m_volume = newVol
 				chart.m_data.append(sData)
 				calculateChartMaxMin(chart)
