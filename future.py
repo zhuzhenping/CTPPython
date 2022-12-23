@@ -511,8 +511,11 @@ def onAccountDataCallBack(data, ctpID):
 			row.m_cells.append(cell1)
 	gridTradeAccount.m_rows[0].m_cells[0].m_value = toFixed2(data.balance, 0)
 	gridTradeAccount.m_rows[0].m_cells[1].m_value = toFixed2(data.closeProfit, 0)
+	setCellStyle2(gridTradeAccount.m_rows[0].m_cells[1], data.closeProfit, 0)
 	gridTradeAccount.m_rows[0].m_cells[2].m_value = toFixed2(data.floatProfit, 0)
+	setCellStyle2(gridTradeAccount.m_rows[0].m_cells[2], data.floatProfit, 0)
 	gridTradeAccount.m_rows[0].m_cells[3].m_value = toFixed2(data.positionProfit, 0)
+	setCellStyle2(gridTradeAccount.m_rows[0].m_cells[3], data.positionProfit, 0)
 	gridTradeAccount.m_rows[0].m_cells[4].m_value = toFixed2(data.dynamicBalance, 0)
 	gridTradeAccount.m_rows[0].m_cells[5].m_value = toFixed2(data.currMargin, 0)
 	gridTradeAccount.m_rows[0].m_cells[6].m_value = toFixed2(data.frozenCash, 0)
@@ -557,6 +560,7 @@ def onInvestorPositionCallBack(data, ctpID):
 		row.m_cells[5].m_value = int(data[i].position) - pyctp.getFrozenAmount(data[i])
 		row.m_cells[6].m_value = toFixed2(data[i].positionCost, 0)
 		row.m_cells[7].m_value = toFixed2(data[i].positionProfit, 0)
+		setCellStyle2(row.m_cells[7], data[i].positionProfit, 0)
 		row.m_cells[8].m_value = toFixed2(data[i].margin, 0)
 		row.m_cells[9].m_value = data[i].hedgeFlag
 		if(data[i].code in m_allCodes):
@@ -578,6 +582,7 @@ def onInvestorPositionCallBack(data, ctpID):
 		row.m_cells[23].m_value = 0
 		row.m_cells[24].m_value = 0
 		row.m_cells[25].m_value = toFixed2(data[i].floatProfit, 0)
+		setCellStyle2(row.m_cells[25], data[i].floatProfit, 0)
 		row.m_cells[26].m_value = 0
 		row.m_cells[27].m_value = 0
 		row.m_cells[28].m_value = 0
