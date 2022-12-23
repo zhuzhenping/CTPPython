@@ -554,12 +554,15 @@ def onInvestorPositionCallBack(data, ctpID):
 		row.m_cells[2].m_value = int(data[i].ydPosition) + int(data[i].todayPosition)
 		row.m_cells[3].m_value = int(data[i].ydPosition)
 		row.m_cells[4].m_value = int(data[i].todayPosition)
-		row.m_cells[5].m_value = 0
+		row.m_cells[5].m_value = int(data[i].position) - pyctp.getFrozenAmount(data[i])
 		row.m_cells[6].m_value = toFixed2(data[i].positionCost, 0)
 		row.m_cells[7].m_value = toFixed2(data[i].positionProfit, 0)
 		row.m_cells[8].m_value = toFixed2(data[i].margin, 0)
-		row.m_cells[9].m_value =data[i].hedgeFlag
-		row.m_cells[10].m_value = data[i].code
+		row.m_cells[9].m_value = data[i].hedgeFlag
+		if(data[i].code in m_allCodes):
+			row.m_cells[10].m_value = m_allCodes[data[i].code].exchangeID
+		else:
+			row.m_cells[10].m_value = ""
 		row.m_cells[11].m_value = 0
 		row.m_cells[12].m_value = 0
 		row.m_cells[13].m_value = 0
@@ -574,7 +577,7 @@ def onInvestorPositionCallBack(data, ctpID):
 		row.m_cells[22].m_value = 0
 		row.m_cells[23].m_value = 0
 		row.m_cells[24].m_value = 0
-		row.m_cells[25].m_value = 0
+		row.m_cells[25].m_value = toFixed2(data[i].floatProfit, 0)
 		row.m_cells[26].m_value = 0
 		row.m_cells[27].m_value = 0
 		row.m_cells[28].m_value = 0

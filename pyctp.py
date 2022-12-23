@@ -268,6 +268,14 @@ class InvestorPosition(object):
 		# 上日持仓
 		self.ydPosition = 0
 
+#获取组合冻结量
+def getFrozenAmount(data):
+	posi = 0
+	if (data.posiDirection == "多"):
+		posi = int(data.longFrozen)
+	elif (data.posiDirection == "空"):
+		posi = int(data.shortFrozen)
+	return posi
 
 class InvestorPositionDetail(object):
 	def __init__(self):
