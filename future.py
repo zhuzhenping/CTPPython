@@ -699,6 +699,8 @@ def onOrderInfosCallBack(data, ctpID):
 	for i in range(0, len(data)):
 		if (data[i].orderStatus == "未知"):
 			continue
+		if(len(data[i].orderSysID) == 0):
+			return
 		row = None
 		for j in range(0, len(gridOrder.m_rows)):
 			if(gridOrder.m_rows[j].m_cells[0].m_value == data[i].orderSysID):
@@ -950,6 +952,8 @@ def onTradeRecordsCallBack(data, ctpID):
 	global m_paint
 	gridTradeRecord = findViewByName("gridTradeRecord", m_paint.m_views)
 	for i in range(0, len(data)):
+		if(len(data[i].tradeID) == 0):
+			return
 		row = FCGridRow()
 		gridTradeRecord.m_rows.insert(0, row)
 		cell1 = FCGridCell()
