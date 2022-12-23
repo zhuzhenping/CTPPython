@@ -656,7 +656,7 @@ def convertToCTPAccountData(str):
 		cTPTradingAccount.withdrawQuota = float(results[21])
 		cTPTradingAccount.reserve = float(results[22])
 		cTPTradingAccount.tradingDay = results[23]
-		cTPTradingAccount.settlementID = int(results[24])
+		cTPTradingAccount.settlementID = float(results[24])
 		cTPTradingAccount.credit = float(results[25])
 		cTPTradingAccount.mortgage = float(results[26])
 		cTPTradingAccount.exchangeMargin = float(results[27])
@@ -703,7 +703,7 @@ def convertToCTPDepthMarketData(str):
 			cTPDepthMarketData.open = float(results[8])
 			cTPDepthMarketData.high = float(results[9])
 			cTPDepthMarketData.low = float(results[10])
-			cTPDepthMarketData.volume = int(results[11])
+			cTPDepthMarketData.volume = float(results[11])
 			cTPDepthMarketData.turnover = float(results[12])
 			cTPDepthMarketData.openInterest = float(results[13])
 			cTPDepthMarketData.lastClose = float(results[14])
@@ -713,27 +713,27 @@ def convertToCTPDepthMarketData(str):
 			cTPDepthMarketData.preDelta = float(results[18])
 			cTPDepthMarketData.currDelta = float(results[19])
 			cTPDepthMarketData.updateTime = results[20]
-			cTPDepthMarketData.updateMillisec = int(results[21])
+			cTPDepthMarketData.updateMillisec = float(results[21])
 			cTPDepthMarketData.bidPrice1 = float(results[22])
-			cTPDepthMarketData.bidVolume1 = int(results[23])
+			cTPDepthMarketData.bidVolume1 = float(results[23])
 			cTPDepthMarketData.askPrice1 = float(results[24])
-			cTPDepthMarketData.askVolume1 = int(results[25])
+			cTPDepthMarketData.askVolume1 = float(results[25])
 			cTPDepthMarketData.bidPrice2 = float(results[26])
-			cTPDepthMarketData.bidVolume2 = int(results[27])
+			cTPDepthMarketData.bidVolume2 = float(results[27])
 			cTPDepthMarketData.askPrice2 = float(results[28])
-			cTPDepthMarketData.askVolume2 = int(results[29])
+			cTPDepthMarketData.askVolume2 = float(results[29])
 			cTPDepthMarketData.bidPrice3 = float(results[30])
-			cTPDepthMarketData.bidVolume3 = int(results[31])
+			cTPDepthMarketData.bidVolume3 = float(results[31])
 			cTPDepthMarketData.askPrice3 = float(results[32])
-			cTPDepthMarketData.askVolume3 = int(results[33])
+			cTPDepthMarketData.askVolume3 = float(results[33])
 			cTPDepthMarketData.bidPrice4 = float(results[34])
-			cTPDepthMarketData.bidVolume4 = int(results[35])
+			cTPDepthMarketData.bidVolume4 = float(results[35])
 			cTPDepthMarketData.askPrice4 = float(results[36])
-			cTPDepthMarketData.askVolume4 = int(results[37])
+			cTPDepthMarketData.askVolume4 = float(results[37])
 			cTPDepthMarketData.bidPrice5 = float(results[38])
-			cTPDepthMarketData.bidVolume5 = int(results[39])
+			cTPDepthMarketData.bidVolume5 = float(results[39])
 			cTPDepthMarketData.askPrice5 = float(results[40])
-			cTPDepthMarketData.askVolume5 = int(results[41])
+			cTPDepthMarketData.askVolume5 = float(results[41])
 			cTPDepthMarketData.averagePrice = float(results[42])
 			cTPDepthMarketData.actionDay = results[43]
 			list.append(cTPDepthMarketData)
@@ -754,13 +754,13 @@ def convertToCTPInstrumentDatas(str):
 			cTPInstrumentData.exchangeInstID = results[3]
 			cTPInstrumentData.productID = results[4]
 			cTPInstrumentData.productClass = results[5]
-			cTPInstrumentData.deliveryYear = int(results[6])
-			cTPInstrumentData.deliveryMonth = int(results[7])
-			cTPInstrumentData.maxMarketOrderVolume = int(results[8])
-			cTPInstrumentData.minMarketOrderVolume = int(results[9])
-			cTPInstrumentData.maxLimitOrderVolume = int(results[10])
-			cTPInstrumentData.minLimitOrderVolume = int(results[11])
-			cTPInstrumentData.volumeMultiple = int(results[12])
+			cTPInstrumentData.deliveryYear = float(results[6])
+			cTPInstrumentData.deliveryMonth = float(results[7])
+			cTPInstrumentData.maxMarketOrderVolume = float(results[8])
+			cTPInstrumentData.minMarketOrderVolume = float(results[9])
+			cTPInstrumentData.maxLimitOrderVolume = float(results[10])
+			cTPInstrumentData.minLimitOrderVolume = float(results[11])
+			cTPInstrumentData.volumeMultiple = float(results[12])
 			cTPInstrumentData.priceTick = float(results[13])
 			cTPInstrumentData.createDate = results[14]
 			cTPInstrumentData.openDate = results[15]
@@ -797,14 +797,14 @@ def convertToCTPInvestorPosition(str):
 			cTPInvestorPosition.posiDirection = results[3]
 			cTPInvestorPosition.hedgeFlag = results[4]
 			cTPInvestorPosition.positionDate = results[5]
-			cTPInvestorPosition.ydPosition = int(results[6])
-			cTPInvestorPosition.position = int(results[7])
-			cTPInvestorPosition.longFrozen = int(results[8])
-			cTPInvestorPosition.shortFrozen = int(results[9])
+			cTPInvestorPosition.ydPosition = float(results[6])
+			cTPInvestorPosition.position = float(results[7])
+			cTPInvestorPosition.longFrozen = float(results[8])
+			cTPInvestorPosition.shortFrozen = float(results[9])
 			cTPInvestorPosition.longFrozenAmount = float(results[10])
 			cTPInvestorPosition.shortFrozenAmount = float(results[11])
-			cTPInvestorPosition.openVolume = int(results[12])
-			cTPInvestorPosition.closeVolume = int(results[13])
+			cTPInvestorPosition.openVolume = float(results[12])
+			cTPInvestorPosition.closeVolume = float(results[13])
 			cTPInvestorPosition.openAmount = float(results[14])
 			cTPInvestorPosition.closeAmount = float(results[15])
 			cTPInvestorPosition.positionCost = float(results[16])
@@ -820,21 +820,21 @@ def convertToCTPInvestorPosition(str):
 			cTPInvestorPosition.preSettlementPrice = float(results[26])
 			cTPInvestorPosition.settlementPrice = float(results[27])
 			cTPInvestorPosition.tradingDate = results[28]
-			cTPInvestorPosition.settlementID = int(results[29])
+			cTPInvestorPosition.settlementID = float(results[29])
 			cTPInvestorPosition.openCost = float(results[30])
 			cTPInvestorPosition.exchangeMargin = float(results[31])
-			cTPInvestorPosition.combPosition = int(results[32])
-			cTPInvestorPosition.combLongFrozen = int(results[33])
-			cTPInvestorPosition.combShortFrozen = int(results[34])
+			cTPInvestorPosition.combPosition = float(results[32])
+			cTPInvestorPosition.combLongFrozen = float(results[33])
+			cTPInvestorPosition.combShortFrozen = float(results[34])
 			cTPInvestorPosition.closeProfitByDate = float(results[35])
 			cTPInvestorPosition.closeProfitByTrade = float(results[36])
-			cTPInvestorPosition.todayPosition = int(results[37])
+			cTPInvestorPosition.todayPosition = float(results[37])
 			cTPInvestorPosition.marginRateByMoney = float(results[38])
 			cTPInvestorPosition.marginRateByVolume = float(results[39])
-			cTPInvestorPosition.strikeFrozen = int(results[40])
+			cTPInvestorPosition.strikeFrozen = float(results[40])
 			cTPInvestorPosition.strikeFrozenAmount = float(results[41])
-			cTPInvestorPosition.abandonFrozen = int(results[42])
-			cTPInvestorPosition.openPrice = int(results[43])
+			cTPInvestorPosition.abandonFrozen = float(results[42])
+			cTPInvestorPosition.openPrice = float(results[43])
 			list.append(cTPInvestorPosition)
 	return list
 
@@ -854,10 +854,10 @@ def convertToCTPInvestorPositionDetail(str):
 			cTPInvestorPositionDetail.direction = results[4]
 			cTPInvestorPositionDetail.openDate = results[5]
 			cTPInvestorPositionDetail.tradeID = results[6]
-			cTPInvestorPositionDetail.volume = int(results[7])
+			cTPInvestorPositionDetail.volume = float(results[7])
 			cTPInvestorPositionDetail.openPrice = float(results[8])
 			cTPInvestorPositionDetail.tradingDay = results[9]
-			cTPInvestorPositionDetail.settlementID = int(results[10])
+			cTPInvestorPositionDetail.settlementID = float(results[10])
 			cTPInvestorPositionDetail.tradeType = results[11]
 			cTPInvestorPositionDetail.combInstrumentID = results[12]
 			cTPInvestorPositionDetail.exchangeID = results[13]
@@ -872,7 +872,7 @@ def convertToCTPInvestorPositionDetail(str):
 			cTPInvestorPositionDetail.lastSettlementPrice = float(results[22])
 			cTPInvestorPositionDetail.lastSettlementPrice = float(results[23])
 			cTPInvestorPositionDetail.settlementPrice = float(results[24])
-			cTPInvestorPositionDetail.closeVolume = int(results[25])
+			cTPInvestorPositionDetail.closeVolume = float(results[25])
 			list.append(cTPInvestorPositionDetail)
 	return list
 
@@ -892,17 +892,17 @@ def convertToCTPOrder(str):
 		cTPOrder.combOffsetFlag = results[7]
 		cTPOrder.combHedgeFlag = results[8]
 		cTPOrder.limitPrice = float(results[9])
-		cTPOrder.volumeTotalOriginal = int(results[10])
+		cTPOrder.volumeTotalOriginal = float(results[10])
 		cTPOrder.timeCondition = results[11]
 		cTPOrder.gTDDate = results[12]
 		cTPOrder.volumeCondition = results[13]
-		cTPOrder.minVolume = int(results[14])
+		cTPOrder.minVolume = float(results[14])
 		cTPOrder.contingentCondition = results[15]
 		cTPOrder.stopPrice = float(results[16])
 		cTPOrder.forceCloseReason = results[17]
 		cTPOrder.isAutoSuspend = results[18]
 		cTPOrder.businessUnit = results[19]
-		cTPOrder.requestID = int(results[20])
+		cTPOrder.requestID = float(results[20])
 		cTPOrder.orderLocalID = results[21]
 		cTPOrder.exchangeID = results[22]
 		cTPOrder.participantID = results[23]
@@ -911,15 +911,15 @@ def convertToCTPOrder(str):
 		cTPOrder.traderID = results[26]
 		cTPOrder.installID = results[27]
 		cTPOrder.orderSubmitStatus = results[28]
-		cTPOrder.notifySequence = int(results[29])
+		cTPOrder.notifySequence = float(results[29])
 		cTPOrder.tradingDay = results[30]
-		cTPOrder.settlementID = int(results[31])
+		cTPOrder.settlementID = float(results[31])
 		cTPOrder.orderSysID = results[32]
 		cTPOrder.orderSource = results[33]
 		cTPOrder.orderStatus = results[34]
 		cTPOrder.orderType = results[35]
-		cTPOrder.volumeTraded = int(results[36])
-		cTPOrder.volumeTotal = int(results[37])
+		cTPOrder.volumeTraded = float(results[36])
+		cTPOrder.volumeTotal = float(results[37])
 		cTPOrder.insertDate = results[38]
 		cTPOrder.insertTime = results[39]
 		cTPOrder.activeTime = results[40]
@@ -928,17 +928,17 @@ def convertToCTPOrder(str):
 		cTPOrder.cancelTime = results[43]
 		cTPOrder.activeTraderID = results[44]
 		cTPOrder.clearingPartID = results[45]
-		cTPOrder.sequenceNo = int(results[46])
-		cTPOrder.frontID = int(results[47])
-		cTPOrder.sessionID = int(results[48])
+		cTPOrder.sequenceNo = float(results[46])
+		cTPOrder.frontID = float(results[47])
+		cTPOrder.sessionID = float(results[48])
 		cTPOrder.userProductInfo = results[49]
 		cTPOrder.statusMsg = results[50]
-		cTPOrder.userForceClose = int(results[51])
+		cTPOrder.userForceClose = float(results[51])
 		cTPOrder.activeUserID = results[52]
-		cTPOrder.brokerOrderSeq = int(results[53])
+		cTPOrder.brokerOrderSeq = float(results[53])
 		cTPOrder.relativeOrderSysID = results[54]
-		cTPOrder.zCETotalTradedVolume = int(results[55])
-		cTPOrder.isSwapOrder = int(results[56])
+		cTPOrder.zCETotalTradedVolume = float(results[55])
+		cTPOrder.isSwapOrder = float(results[56])
 	return cTPOrder
 
 #转换成委托回报列表
@@ -972,7 +972,7 @@ def convertToCTPTrade(str):
 		cTPTrade.offsetFlag = results[13]
 		cTPTrade.hedgeFlag = results[14]
 		cTPTrade.price = float(results[15])
-		cTPTrade.volume = int(results[16])
+		cTPTrade.volume = float(results[16])
 		cTPTrade.tradeDate = results[17]
 		cTPTrade.tradeTime = results[18]
 		cTPTrade.tradeType = results[19]
@@ -981,10 +981,10 @@ def convertToCTPTrade(str):
 		cTPTrade.orderLocalID = results[22]
 		cTPTrade.clearingPartID = results[23]
 		cTPTrade.businessUnit = results[24]
-		cTPTrade.sequenceNo = int(results[25])
+		cTPTrade.sequenceNo = float(results[25])
 		cTPTrade.tradingDay = results[26]
-		cTPTrade.settlementID = int(results[27])
-		cTPTrade.brokerOrderSeq = int(results[28])
+		cTPTrade.settlementID = float(results[27])
+		cTPTrade.brokerOrderSeq = float(results[28])
 		cTPTrade.tradeSource = results[29]
 		cTPTrade.commission = float(results[30])
 	return cTPTrade

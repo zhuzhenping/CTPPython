@@ -1083,7 +1083,7 @@ def runCTP():
 		onTradeRecordsCallBack(data, ctp.m_ctpID)
 	# 注册行情
 	reqID = ctp.generateReqID()
-	ctp.subMarketDatas(reqID, "IF2301,IF2302,IF2303,cu2301,cu2302,cu2303,rb2301,rb2302,rb2304,ru2301,ru2302,ru2303")
+	ctp.subMarketDatas(reqID, "cu2301,cu2302,cu2303,rb2301,rb2302,rb2304,ru2301,ru2302,ru2303")
 	timer.set_timer(1, checkCTPData)
 
 #点击单元格
