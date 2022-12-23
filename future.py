@@ -358,6 +358,36 @@ def onViewMouseDown(view, mp, buttons, clicks, delta):
 	elif(view.m_type == "button"):
 		invalidateView(view, view.m_paint)
 
+#视图的鼠标进入方法
+#view 视图
+#mp 坐标
+#buttons 按钮 0未按下 1左键 2右键
+#clicks 点击次数
+#delta 滚轮值
+def onViewMouseEnter(view, mp, buttons, clicks, delta):
+	firstTouch = FALSE
+	secondTouch = FALSE
+	firstPoint = mp
+	secondPoint = mp
+	if (buttons == 1):
+		firstTouch = TRUE
+
+#视图的鼠标进入方法
+#view 视图
+#mp 坐标
+#buttons 按钮 0未按下 1左键 2右键
+#clicks 点击次数
+#delta 滚轮值
+def onViewMouseLeave(view, mp, buttons, clicks, delta):
+	firstTouch = FALSE
+	secondTouch = FALSE
+	firstPoint = mp
+	secondPoint = mp
+	if (buttons == 1):
+		firstTouch = TRUE
+	if(view.m_type == "button"):
+		invalidateView(view, view.m_paint)
+
 #视图的鼠标抬起方法
 #view 视图
 #mp 坐标
@@ -1053,7 +1083,7 @@ def runCTP():
 		onTradeRecordsCallBack(data, ctp.m_ctpID)
 	# 注册行情
 	reqID = ctp.generateReqID()
-	ctp.subMarketDatas(reqID, "cu2301,cu2302,cu2303,rb2301,rb2302,rb2304,ru2301,ru2302,ru2303")
+	ctp.subMarketDatas(reqID, "IF2301,IF2302,IF2303,cu2301,cu2302,cu2303,rb2301,rb2302,rb2304,ru2301,ru2302,ru2303")
 	timer.set_timer(1, checkCTPData)
 
 #点击单元格
@@ -1107,6 +1137,8 @@ facecat.m_mouseDownCallBack = onViewMouseDown
 facecat.m_mouseMoveCallBack = onViewMouseMove 
 facecat.m_mouseUpCallBack = onViewMouseUp
 facecat.m_mouseWheelCallBack = onViewMouseWheel
+facecat.m_mouseEnterCallBack = onViewMouseEnter
+facecat.m_mouseLeaveCallBack = onViewMouseLeave
 facecat.m_clickCallBack = onViewClick
 facecat.m_clickGridCellCallBack = onClickGridCell
 def WndProc(hwnd,msg,wParam,lParam):
