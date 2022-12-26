@@ -1133,7 +1133,7 @@ def onClickGridCell(grid, row, gridColumn, cell, firstTouch, secondTouch, firstP
 		code = row.m_cells[0].m_value
 		price = ""
 		if(code in m_allDatas):
-			price = m_allDatas[code].close
+			price = str(m_allDatas[code].close)
 		txtIssueCode = findViewByName("txtIssueCode", m_paint.m_views)
 		spinPrice = findViewByName("spinPrice", m_paint.m_views)
 		spinVolume = findViewByName("spinVolume", m_paint.m_views)
@@ -1145,7 +1145,7 @@ def onClickGridCell(grid, row, gridColumn, cell, firstTouch, secondTouch, firstP
 		code = row.m_cells[1].m_value
 		price = ""
 		if(code in m_allDatas):
-			price = m_allDatas[code].close
+			price = str(m_allDatas[code].close)
 		txtIssueCode = findViewByName("txtIssueCode", m_paint.m_views)
 		spinPrice = findViewByName("spinPrice", m_paint.m_views)
 		spinVolume = findViewByName("spinVolume", m_paint.m_views)
