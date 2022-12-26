@@ -267,6 +267,18 @@ def readXmlNode(paint, node, parent):
 				s = win32gui.GetWindowLong(view.m_hWnd, GWL_EXSTYLE)
 				win32gui.SetWindowLong(view.m_hWnd, GWL_EXSTYLE, s|ES_CENTER)
 				setHWndText(view.m_hWnd, view.m_text)
+			elif(view.m_type == "combobox"):
+				#https://blog.csdn.net/qq_31178679/article/details/125883494
+				view.m_hWnd = win32gui.CreateWindowEx(0, "ComboBox", view.m_name, WS_VISIBLE | WS_CHILD | WS_BORDER | CBS_HASSTRINGS | CBS_DROPDOWNLIST, 0, 0, 100, 30, paint.m_hWnd, 0, 0, None)
+				win32gui.ShowWindow(view.m_hWnd, SW_HIDE)
+				cIndex = 0
+				for tChild in child:
+					if(tChild.tag.replace("{facecat}", "") == "option"):
+						if "text" in tChild.attrib:
+							win32gui.SendMessage(view.m_hWnd, CB_ADDSTRING, cIndex, tChild.attrib["text"])
+							cIndex = cIndex + 1
+				if "selectedindex" in child.attrib:
+					win32gui.SendMessage(view.m_hWnd, CB_SETCURSEL, int(child.attrib["selectedindex"]), 0)
 			else:
 				readXmlNode(paint, child, view)
 
