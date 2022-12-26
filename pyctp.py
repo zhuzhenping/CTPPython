@@ -626,6 +626,114 @@ class TradeRecord(object):
 		# 用户代码
 		self.userID = ""
 
+#合约手续费率
+class CommissionRate(object):
+	def __init__(self):
+		#经纪公司代码
+		self.brokerID = ""
+		#收费方式
+		self.calculateMode = ""
+		#平仓手续费率
+		self.closeRatioByMoney = 0
+		#平仓手续费
+		self.closeRatioByVolume = 0
+		#平今手续费率
+		self.closeTodayRatioByMoney = 0
+		#平今手续费
+		self.closeTodayRatioByVolume = 0
+		#平今费
+		self.closeTodayFee = 0
+		#合约代码
+		self.code = ""
+		#代码
+		self.commodityNo = ""
+		#类型
+		self.commodityType = ""
+		#交易所编号
+		self.exchangeNo = ""
+		#投资者代码
+		self.investorID = ""
+		#投资者范围
+		self.investorRange = ""
+		#来源
+		self.matchSource = ""
+		#开平费
+		self.openCloseFee = 0
+		#开仓手续费率
+		self.openRatioByMoney = 0
+		#开仓手续费
+		self.openRatioByVolume = 0
+
+#合约保证金率
+class MarginRate(object):
+	def __init__(self):
+		#经纪公司代码
+		self.brokerID = ""
+		#收费方式
+		self.calculateMode = ""
+		#看涨看跌标示
+		self.callOrPutFlag = ""
+		#合约代码
+		self.code = ""
+		#代码
+		self.commodityNo = ""
+		#类型
+		self.commodityType = ""
+		#合约
+		self.contractNo = ""
+		#投机套保标志
+		self.hedgeFlag = ""
+		self.initialMargin =0
+		#投资者代码
+		self.investorID = ""
+		#多头保证金率
+		self.longMarginRatioByMoney = 0
+		#多头保证金费
+		self.longMarginRatioByVolume = 0
+		#投资者范围
+		self.investorRange = ""
+		#是否相对交易所收取
+		self.isRelativel = 0
+		self.lockMargin = 0
+		self.maintenanceMargin = 0
+		self.sellInitialMargin = 0
+		self.sellMaintenanceMargin = 0
+		#空头保证金率
+		self.shortMarginRatioByMoney = 0
+		#空头保证金费
+		self.shortMarginRatioByVolume = 0
+		#
+		self.strikePrice = ""
+
+#转换成CTP手续费率
+def convertToCTPCommissionRate(result):
+	cTPCommissionRate = CommissionRate()
+	results = str.split(',')
+	cTPCommissionRate.code = results[0]
+	cTPCommissionRate.investorRange = results[1]
+	cTPCommissionRate.brokerID = results[2]
+	cTPCommissionRate.investorID = results[3]
+	cTPCommissionRate.openRatioByMoney = float(results[4])
+	cTPCommissionRate.openRatioByVolume = float(results[5])
+	cTPCommissionRate.closeRatioByMoney = float(results[6])
+	cTPCommissionRate.closeRatioByVolume = float(results[7])
+	cTPCommissionRate.closeTodayRatioByMoney = float(results[8])
+	cTPCommissionRate.closeTodayRatioByVolume = float(results[9])
+
+#转换CTP保证金率
+def convertToCTPMarginRate(result):
+	cTPMarginRate = MarginRate()
+	results = str.split(',')
+	cTPMarginRate.code = results[0]
+	cTPMarginRate.brokerID = results[1]
+	cTPMarginRate.investorID = results[2]
+	cTPMarginRate.hedgeFlag = results[3]
+	cTPMarginRate.longMarginRatioByMoney = float(results[4])
+	cTPMarginRate.longMarginRatioByVolume = float(results[5])
+	cTPMarginRate.shortMarginRatioByMoney = float(results[6])
+	cTPMarginRate.shortMarginRatioByVolume = float(results[7])
+	cTPMarginRate.isRelativel = int(results[8])
+
 #转换资金账户结构
 def convertToCTPAccountData(str):
 	cTPTradingAccount = AccountData()
