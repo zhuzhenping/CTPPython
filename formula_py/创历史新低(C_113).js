@@ -1,1 +1,0 @@
-RET: LLV(CLOSE, 0) = CLOSE;
