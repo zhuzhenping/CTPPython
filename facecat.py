@@ -426,6 +426,7 @@ class FCView(object):
 		self.m_hoveredColor = "none" #鼠标悬停时的颜色
 		self.m_pushedColor = "rgb(100,100,100)" #鼠标按下时的颜色
 		self.m_allowDrag = FALSE #是否允许拖动
+		self.m_allowDraw = TRUE #是否允许绘图
 
 m_cancelClick = FALSE #是否退出点击
 m_mouseDownView = None #鼠标按下的视图
@@ -5568,7 +5569,7 @@ def renderViews(views, paint, rect):
 				renderViews(subViews, paint, None)
 			view.m_clipRect = None
 			continue
-		if(view.m_topMost == FALSE and isPaintVisible(view)):
+		if(view.m_topMost == FALSE and isPaintVisible(view) and view.m_allowDraw):
 			clx = clientX(view)
 			cly = clientY(view)
 			drawRect = FCRect(0, 0, view.m_size.cx, view.m_size.cy)
@@ -5599,7 +5600,7 @@ def renderViews(views, paint, rect):
 		view = views[size - i - 1]
 		if(rect == None):
 			continue
-		if(view.m_topMost and isPaintVisible(view)):
+		if(view.m_topMost and isPaintVisible(view) and view.m_allowDraw):
 			clx = clientX(view)
 			cly = clientY(view)
 			drawRect = FCRect(0, 0, view.m_size.cx, view.m_size.cy)
@@ -5713,6 +5714,8 @@ def onMouseMove(mp, buttons, clicks, delta, paint):
 		offsetY = mp.y - m_dragBeginPoint.y
 		newBounds = FCRect(m_dragBeginRect.left + offsetX, m_dragBeginRect.top + offsetY, m_dragBeginRect.right + offsetX, m_dragBeginRect.bottom + offsetY)
 		m_draggingView.m_location = FCPoint(newBounds.left, newBounds.top)
+		if (m_draggingView.m_parent != None and m_draggingView.m_parent.m_type == "split"):
+			resetSplitLayoutDiv(m_draggingView.m_parent)
 		if (m_draggingView.m_parent != None):
 			invalidateView(m_draggingView.m_parent, m_draggingView.m_parent.m_paint)
 		else:
@@ -5778,6 +5781,7 @@ def onMouseUp(mp, buttons, clicks, delta, paint):
 			m_mouseDownView = None
 			if(m_mouseUpCallBack != None):
 				m_mouseUpCallBack(mouseDownView, cmpPoint, 1, 1, 0)
+	m_draggingView = None
 
 #鼠标滚动方法
 #mp 坐标
