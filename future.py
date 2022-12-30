@@ -1085,6 +1085,7 @@ def checkCTPData(a='', b=''):
 			data = pyctp.convertToCTPInvestorPositionDetail(str(recvData.value, encoding="gbk"))
 			onInvestorPositionDetailCallBack(data, ctp.m_ctpID)
 			continue
+		break
 
 #启动CTP
 def runCTP():
