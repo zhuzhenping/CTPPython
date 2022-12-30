@@ -753,6 +753,7 @@ def onOrderInfoCallBack(data, ctpID):
 def onOrderInfosCallBack(data, ctpID):
 	global m_paint
 	gridOrder = findViewByName("gridOrder", m_paint.m_views)
+	gridOrder.m_rows = []
 	for i in range(0, len(data)):
 		if (data[i].orderStatus == "未知"):
 			continue
@@ -802,6 +803,7 @@ m_allDatas = dict()
 def onSecurityCallBack(data, ctpID):
 	global m_paint
 	contractGrid = findViewByName("gridContracts", m_paint.m_views)
+	contractGrid.m_rows = []
 	for i in range(0, len(data)):
 		m_allCodes[data[i].instrumentID] = data[i]
 		row = FCGridRow()
@@ -1008,6 +1010,7 @@ def onTradeRecordCallBack(data, ctpID):
 def onTradeRecordsCallBack(data, ctpID):
 	global m_paint
 	gridTradeRecord = findViewByName("gridTradeRecord", m_paint.m_views)
+	gridTradeRecord.m_rows = []
 	for i in range(0, len(data)):
 		if(len(data[i].tradeID) == 0):
 			return
