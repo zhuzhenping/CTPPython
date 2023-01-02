@@ -647,6 +647,7 @@ class BaseShape(object):
 		self.m_type = "line" #类型
 		self.m_lineWidth = 1 #线的宽度
 		self.m_color = "none" #颜色
+		self.m_color2 = "none" #颜色2
 		self.m_datas = [] #第一组数据
 		self.m_datas2 = [] #第二组数据
 		self.m_title = "" #第一个标题
@@ -1316,7 +1317,9 @@ def updateTabLayout(tabView):
 def addTabPage(tabView, tabPage, tabButton):
 	tabPage.m_headerButton = tabButton
 	tabPage.m_parent = tabView
+	tabPage.m_paint = tabView.m_paint
 	tabButton.m_parent = tabView
+	tabButton.m_paint = tabView.m_paint
 	tabView.m_tabPages.append(tabPage)
 	tabView.m_views.append(tabPage)
 	tabView.m_views.append(tabButton)
@@ -5284,6 +5287,11 @@ def drawChartCrossLine(chart, paint, clipRect):
 				if(shape.m_divIndex == 1):
 					drawTitles.append(shape.m_title + " " + toFixed(shape.m_datas[crossLineIndex], chart.m_indDigit2))
 					drawColors.append(shape.m_color)
+					if(len(shape.m_datas2) > 0):
+						drawTitles.append(shape.m_title2 + " " + toFixed(shape.m_datas2[crossLineIndex], chart.m_indDigit2))
+						drawColors.append(shape.m_color2)
+						
+					
 		iLeft = chart.m_leftVScaleWidth + 5
 		for i in range(0,len(drawTitles)):
 			tSize = paint.textSize(drawTitles[i], chart.m_font)
@@ -5301,6 +5309,9 @@ def drawChartCrossLine(chart, paint, clipRect):
 				if(shape.m_divIndex == 0):
 					drawTitles.append(shape.m_title + " " + toFixed(shape.m_datas[crossLineIndex], chart.m_indDigit2))
 					drawColors.append(shape.m_color)
+					if(len(shape.m_datas2) > 0):
+						drawTitles.append(shape.m_title2 + " " + toFixed(shape.m_datas2[crossLineIndex], chart.m_indDigit2))
+						drawColors.append(shape.m_color2)
 		for i in range(0,len(drawTitles)):
 			tSize = paint.textSize(drawTitles[i], chart.m_font)
 			paint.drawText(drawTitles[i], drawColors[i], chart.m_font, iLeft, 5)
@@ -5334,6 +5345,9 @@ def drawChartCrossLine(chart, paint, clipRect):
 				if(shape.m_divIndex == 0):
 					drawTitles.append(shape.m_title + " " + toFixed(shape.m_datas[crossLineIndex], chart.m_indDigit2))
 					drawColors.append(shape.m_color)
+					if(len(shape.m_datas2) > 0):
+						drawTitles.append(shape.m_title2 + " " + toFixed(shape.m_datas2[crossLineIndex], chart.m_indDigit2))
+						drawColors.append(shape.m_color2)
 		iLeft = chart.m_leftVScaleWidth + 5
 		for i in range(0, len(drawTitles)):
 			tSize = paint.textSize(drawTitles[i], chart.m_font)
@@ -5402,6 +5416,9 @@ def drawChartCrossLine(chart, paint, clipRect):
 				if(shape.m_divIndex == 2):
 					drawTitles.append(shape.m_title + " " + toFixed(shape.m_datas[crossLineIndex], chart.m_indDigit2))
 					drawColors.append(shape.m_color)
+					if(len(shape.m_datas2) > 0):
+						drawTitles.append(shape.m_title2 + " " + toFixed(shape.m_datas2[crossLineIndex], chart.m_indDigit2))
+						drawColors.append(shape.m_color2)
 		iLeft = chart.m_leftVScaleWidth + 5
 		for i in range(0,len(drawTitles)):
 			tSize = paint.textSize(drawTitles[i], chart.m_font)
@@ -5416,6 +5433,9 @@ def drawChartCrossLine(chart, paint, clipRect):
 				if(shape.m_divIndex == 3):
 					drawTitles.append(shape.m_title + " " + toFixed(shape.m_datas[crossLineIndex], chart.m_indDigit2))
 					drawColors.append(shape.m_color)
+					if(len(shape.m_datas2) > 0):
+						drawTitles.append(shape.m_title2 + " " + toFixed(shape.m_datas2[crossLineIndex], chart.m_indDigit2))
+						drawColors.append(shape.m_color2)
 			if(len(drawTitles) > 0):
 				iLeft = chart.m_leftVScaleWidth + 5
 				for i in range(0,len(drawTitles)):
@@ -5724,10 +5744,20 @@ def drawChartStock(chart, paint, clipRect):
 	if(len(chart.m_shapes) > 0):
 		for i in range(0, len(chart.m_shapes)):
 			shape = chart.m_shapes[i]
-			if(chart.m_selectShape == shape.m_name):
-				drawChartLines(chart, paint, clipRect, shape.m_divIndex, shape.m_datas, shape.m_color, TRUE)
+			if(shape.m_type == "bar"):
+				for i in range(chart.m_firstVisibleIndex,lastValidIndex + 1):
+					x = getChartX(chart, i)
+					y1 = getChartY(chart, shape.m_divIndex, shape.m_datas[i])
+					y2 = getChartY(chart, shape.m_divIndex, shape.m_datas2[i])
+					if(y1 >= y2):
+						paint.fillRect(shape.m_color, x - cWidth, y2, x + cWidth, y1)
+					else:
+						paint.fillRect(shape.m_color, x - cWidth, y1, x + cWidth, y2)
 			else:
-				drawChartLines(chart, paint, clipRect, shape.m_divIndex, shape.m_datas, shape.m_color, FALSE)
+				if(chart.m_selectShape == shape.m_name):
+					drawChartLines(chart, paint, clipRect, shape.m_divIndex, shape.m_datas, shape.m_color, TRUE)
+				else:
+					drawChartLines(chart, paint, clipRect, shape.m_divIndex, shape.m_datas, shape.m_color, FALSE)
 
 
 m_paintChartScale = None #绘制坐标轴回调
