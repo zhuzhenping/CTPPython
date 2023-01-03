@@ -3291,10 +3291,24 @@ def calculateChartMaxMin(chart):
 							chart.m_indMax2 = shape.m_datas2[i]
 						if (shape.m_datas2[i] < chart.m_indMin2):
 							chart.m_indMin2 = shape.m_datas2[i]
+					
 	if (isTrend):
 		subMax = max(abs(chart.m_candleMax - firstOpen), abs(chart.m_candleMin - firstOpen))
 		chart.m_candleMax = firstOpen + subMax
 		chart.m_candleMin = firstOpen - subMax
+	else:
+		if(chart.m_candleMax == 0 and chart.m_candleMin == 0):
+			chart.m_candleMax = 1
+			chart.m_candleMin = -1
+		if(chart.m_volMax == 0 and chart.m_volMin == 0):
+			chart.m_volMax = 1
+			chart.m_volMin = -1
+		if(chart.m_indMax == 0 and chart.m_indMin == 0):
+			chart.m_indMax = 1
+			chart.m_indMin = -1
+		if(chart.m_indMax2 == 0 and chart.m_indMin2 == 0):
+			chart.m_indMax2 = 1
+			chart.m_indMin2 = -1
 
 #缩小
 #chart:K线
@@ -5285,11 +5299,15 @@ def drawChartCrossLine(chart, paint, clipRect):
 			for i in range(0, len(chart.m_shapes)):
 				shape = chart.m_shapes[i]
 				if(shape.m_divIndex == 1):
-					drawTitles.append(shape.m_title + " " + toFixed(shape.m_datas[crossLineIndex], chart.m_indDigit2))
-					drawColors.append(shape.m_color)
-					if(len(shape.m_datas2) > 0):
-						drawTitles.append(shape.m_title2 + " " + toFixed(shape.m_datas2[crossLineIndex], chart.m_indDigit2))
+					if(shape.m_type == "bar"  and shape.m_style == "2color"):
+						drawTitles.append(shape.m_title + " " + toFixed(shape.m_datas[crossLineIndex], chart.m_indDigit2))
 						drawColors.append(shape.m_color2)
+					else:
+						drawTitles.append(shape.m_title + " " + toFixed(shape.m_datas[crossLineIndex], chart.m_indDigit2))
+						drawColors.append(shape.m_color)
+						if(len(shape.m_datas2) > 0):
+							drawTitles.append(shape.m_title2 + " " + toFixed(shape.m_datas2[crossLineIndex], chart.m_indDigit2))
+							drawColors.append(shape.m_color2)
 						
 					
 		iLeft = chart.m_leftVScaleWidth + 5
@@ -5307,11 +5325,15 @@ def drawChartCrossLine(chart, paint, clipRect):
 			for i in range(0, len(chart.m_shapes)):
 				shape = chart.m_shapes[i]
 				if(shape.m_divIndex == 0):
-					drawTitles.append(shape.m_title + " " + toFixed(shape.m_datas[crossLineIndex], chart.m_indDigit2))
-					drawColors.append(shape.m_color)
-					if(len(shape.m_datas2) > 0):
-						drawTitles.append(shape.m_title2 + " " + toFixed(shape.m_datas2[crossLineIndex], chart.m_indDigit2))
+					if(shape.m_type == "bar"  and shape.m_style == "2color"):
+						drawTitles.append(shape.m_title + " " + toFixed(shape.m_datas[crossLineIndex], chart.m_indDigit2))
 						drawColors.append(shape.m_color2)
+					else:
+						drawTitles.append(shape.m_title + " " + toFixed(shape.m_datas[crossLineIndex], chart.m_indDigit2))
+						drawColors.append(shape.m_color)
+						if(len(shape.m_datas2) > 0):
+							drawTitles.append(shape.m_title2 + " " + toFixed(shape.m_datas2[crossLineIndex], chart.m_indDigit2))
+							drawColors.append(shape.m_color2)
 		for i in range(0,len(drawTitles)):
 			tSize = paint.textSize(drawTitles[i], chart.m_font)
 			paint.drawText(drawTitles[i], drawColors[i], chart.m_font, iLeft, 5)
@@ -5343,11 +5365,15 @@ def drawChartCrossLine(chart, paint, clipRect):
 			for i in range(0, len(chart.m_shapes)):
 				shape = chart.m_shapes[i]
 				if(shape.m_divIndex == 0):
-					drawTitles.append(shape.m_title + " " + toFixed(shape.m_datas[crossLineIndex], chart.m_indDigit2))
-					drawColors.append(shape.m_color)
-					if(len(shape.m_datas2) > 0):
-						drawTitles.append(shape.m_title2 + " " + toFixed(shape.m_datas2[crossLineIndex], chart.m_indDigit2))
+					if(shape.m_type == "bar"  and shape.m_style == "2color"):
+						drawTitles.append(shape.m_title + " " + toFixed(shape.m_datas[crossLineIndex], chart.m_indDigit2))
 						drawColors.append(shape.m_color2)
+					else:
+						drawTitles.append(shape.m_title + " " + toFixed(shape.m_datas[crossLineIndex], chart.m_indDigit2))
+						drawColors.append(shape.m_color)
+						if(len(shape.m_datas2) > 0):
+							drawTitles.append(shape.m_title2 + " " + toFixed(shape.m_datas2[crossLineIndex], chart.m_indDigit2))
+							drawColors.append(shape.m_color2)
 		iLeft = chart.m_leftVScaleWidth + 5
 		for i in range(0, len(drawTitles)):
 			tSize = paint.textSize(drawTitles[i], chart.m_font)
@@ -5414,11 +5440,15 @@ def drawChartCrossLine(chart, paint, clipRect):
 			for i in range(0, len(chart.m_shapes)):
 				shape = chart.m_shapes[i]
 				if(shape.m_divIndex == 2):
-					drawTitles.append(shape.m_title + " " + toFixed(shape.m_datas[crossLineIndex], chart.m_indDigit2))
-					drawColors.append(shape.m_color)
-					if(len(shape.m_datas2) > 0):
-						drawTitles.append(shape.m_title2 + " " + toFixed(shape.m_datas2[crossLineIndex], chart.m_indDigit2))
+					if(shape.m_type == "bar"  and shape.m_style == "2color"):
+						drawTitles.append(shape.m_title + " " + toFixed(shape.m_datas[crossLineIndex], chart.m_indDigit2))
 						drawColors.append(shape.m_color2)
+					else:
+						drawTitles.append(shape.m_title + " " + toFixed(shape.m_datas[crossLineIndex], chart.m_indDigit2))
+						drawColors.append(shape.m_color)
+						if(len(shape.m_datas2) > 0):
+							drawTitles.append(shape.m_title2 + " " + toFixed(shape.m_datas2[crossLineIndex], chart.m_indDigit2))
+							drawColors.append(shape.m_color2)
 		iLeft = chart.m_leftVScaleWidth + 5
 		for i in range(0,len(drawTitles)):
 			tSize = paint.textSize(drawTitles[i], chart.m_font)
@@ -5431,11 +5461,15 @@ def drawChartCrossLine(chart, paint, clipRect):
 			for i in range(0, len(chart.m_shapes)):
 				shape = chart.m_shapes[i]
 				if(shape.m_divIndex == 3):
-					drawTitles.append(shape.m_title + " " + toFixed(shape.m_datas[crossLineIndex], chart.m_indDigit2))
-					drawColors.append(shape.m_color)
-					if(len(shape.m_datas2) > 0):
-						drawTitles.append(shape.m_title2 + " " + toFixed(shape.m_datas2[crossLineIndex], chart.m_indDigit2))
+					if(shape.m_type == "bar"  and shape.m_style == "2color"):
+						drawTitles.append(shape.m_title + " " + toFixed(shape.m_datas[crossLineIndex], chart.m_indDigit2))
 						drawColors.append(shape.m_color2)
+					else:
+						drawTitles.append(shape.m_title + " " + toFixed(shape.m_datas[crossLineIndex], chart.m_indDigit2))
+						drawColors.append(shape.m_color)
+						if(len(shape.m_datas2) > 0):
+							drawTitles.append(shape.m_title2 + " " + toFixed(shape.m_datas2[crossLineIndex], chart.m_indDigit2))
+							drawColors.append(shape.m_color2)
 			if(len(drawTitles) > 0):
 				iLeft = chart.m_leftVScaleWidth + 5
 				for i in range(0,len(drawTitles)):
@@ -5745,14 +5779,23 @@ def drawChartStock(chart, paint, clipRect):
 		for i in range(0, len(chart.m_shapes)):
 			shape = chart.m_shapes[i]
 			if(shape.m_type == "bar"):
-				for i in range(chart.m_firstVisibleIndex,lastValidIndex + 1):
-					x = getChartX(chart, i)
-					y1 = getChartY(chart, shape.m_divIndex, shape.m_datas[i])
-					y2 = getChartY(chart, shape.m_divIndex, shape.m_datas2[i])
-					if(y1 >= y2):
-						paint.fillRect(shape.m_color, x - cWidth, y2, x + cWidth, y1)
+				for j in range(chart.m_firstVisibleIndex,lastValidIndex + 1):
+					x = getChartX(chart, j)
+					y1 = getChartY(chart, shape.m_divIndex, shape.m_datas[j])
+					if(shape.m_style != "2color"):
+						y2 = getChartY(chart, shape.m_divIndex, shape.m_datas2[j])
+						if(y1 >= y2):
+							paint.fillRect(shape.m_color, x - cWidth, y2, x + cWidth, y1)
+						else:
+							paint.fillRect(shape.m_color, x - cWidth, y1, x + cWidth, y2)
 					else:
-						paint.fillRect(shape.m_color, x - cWidth, y1, x + cWidth, y2)
+						y2 = getChartY(chart, shape.m_divIndex, 0)
+						if(y1 >= y2):
+							paint.drawLine(shape.m_color2, 1, 0, x, y1, x, y2)
+						else:
+							paint.drawLine(shape.m_color, 1, 0, x, y1, x, y2)
+						if(j == lastValidIndex):
+							paint.drawLine(shape.m_color2, 1, 0, chart.m_leftVScaleWidth, y2, chart.m_size.cx - chart.m_rightVScaleWidth, y2)
 			else:
 				if(chart.m_selectShape == shape.m_name):
 					drawChartLines(chart, paint, clipRect, shape.m_divIndex, shape.m_datas, shape.m_color, TRUE)
@@ -5928,6 +5971,25 @@ def showOrHideInput(paint, views):
 				if(win32gui.IsWindowVisible(view.m_hWnd)):
 					win32gui.ShowWindow(view.m_hWnd, SW_HIDE)
 
+#更新悬浮状态
+#views:视图集合
+def updateViewDefault(views):
+	for i in range(0,len(views)):
+		view = views[i]
+		if(view.m_dock == "fill"):
+			if(view.m_parent != None and view.m_parent.m_type != "split"):
+				view.m_location = FCPoint(0, 0)
+				view.m_size = FCSize(view.m_parent.m_size.cx, view.m_parent.m_size.cy)
+		if(view.m_type == "split"):
+			resetSplitLayoutDiv(view)
+		elif(view.m_type == "tabview"):
+			updateTabLayout(view)
+		elif(view.m_type == "layout"):
+			resetLayoutDiv(view)
+		subViews = view.m_views
+		if(len(subViews) > 0):
+			updateViewDefault(subViews)
+
 #鼠标移动方法
 #mp 坐标
 #buttons 按钮 0未按下 1左键 2右键
@@ -5960,6 +6022,7 @@ def onMouseMove(mp, buttons, clicks, delta, paint):
 		m_draggingView.m_location = FCPoint(newBounds.left, newBounds.top)
 		if (m_draggingView.m_parent != None and m_draggingView.m_parent.m_type == "split"):
 			resetSplitLayoutDiv(m_draggingView.m_parent)
+			updateViewDefault(m_draggingView.m_parent.m_views)
 		if (m_draggingView.m_parent != None):
 			invalidateView(m_draggingView.m_parent, m_draggingView.m_parent.m_paint)
 		else:
