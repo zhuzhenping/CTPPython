@@ -3,6 +3,7 @@ import struct
 import time
 import os
 
+#资金账号
 class AccountData(object):
 	def __init__(self):
 		# 投资者帐号
@@ -104,6 +105,7 @@ class AccountData(object):
 		# 可取资金
 		self.withdrawQuota = 0
 
+#码表
 class Security(object):
 	def __init__(self):
 		# 组合类型
@@ -173,6 +175,7 @@ class Security(object):
 		# 合约数量乘数
 		self.volumeMultiple = 0
 
+#持仓
 class InvestorPosition(object):
 	def __init__(self):
 		# 放弃执行冻结
@@ -277,6 +280,7 @@ def getFrozenAmount(data):
 		posi = data.shortFrozen
 	return posi
 
+#持仓明细
 class InvestorPositionDetail(object):
 	def __init__(self):
 		# 经纪公司代码
@@ -352,7 +356,7 @@ class InvestorPositionDetail(object):
 		# 数量
 		self.volume = 0
 
-
+#委托回报
 class OrderInfo(object):
 	def __init__(self):
 		# 激活时间
@@ -470,6 +474,7 @@ class OrderInfo(object):
 		# 郑商所成交数量
 		self.zCETotalTradedVolume = 0
 
+#最新数据
 class SecurityLatestData(object):
 	def __init__(self):
 		# 触发日
@@ -561,6 +566,7 @@ class SecurityLatestData(object):
 		# 成交量
 		self.volume = 0
 
+#成交回报
 class TradeRecord(object):
 	def __init__(self):
 		# 经纪公司代码
